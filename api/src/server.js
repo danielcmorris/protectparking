@@ -1,5 +1,6 @@
 'use strict';
 
+const path = require('path');
 const express = require('express');
 const cors = require('cors');
 
@@ -12,6 +13,12 @@ const app = express();
 app.disable('x-powered-by');
 app.use(cors({ origin: config.corsOrigins.includes('*') ? true : config.corsOrigins }));
 app.use(express.json({ limit: config.maxBodyBytes }));
+
+// Serve the static campaign site, co-hosted with the API.
+// In the container the site is copied to /app/site; for local `npm start`
+// from api/, ../site resolves to the repo's site/ folder.
+const SITE_DIR = process.env.SITE_DIR || path.join(__dirname, '..', 'site');
+app.use(express.static(SITE_DIR, { extensions: ['html'] }));
 
 // Liveness/readiness probe for Cloud Run.
 app.get('/health', async (_req, res) => {

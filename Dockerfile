@@ -21,6 +21,8 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY api/package.json ./
 COPY api/src ./src
 COPY api/db ./db
+# Static campaign site, served by the API at / (see src/server.js).
+COPY site ./site
 
 USER node
 

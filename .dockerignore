@@ -1,4 +1,4 @@
-# Keep the API image lean: only api/ is needed by the root Dockerfile.
+# Keep the API image lean. NOTE: site/ IS needed — the API serves it at /.
 .git
 .gitignore
 node_modules
@@ -7,6 +7,5 @@ creds
 extracted
 *.zip
 *.zip:Zone.Identifier
-site
 *.md
 **/*.md

@@ -12,8 +12,9 @@
     showShareBar: true,
     // TODO(production): seed from a real backend count, or set to null to hide.
     pledgeCountSeed: 1284,
-    // Base URL of the comment API. Leave '' to stay client-only (localStorage).
-    // Set to e.g. 'https://vallejo-street-api-xxxx.run.app' once deployed.
+    // Base URL of the comment API. Empty '' = same origin (the API serves this
+    // site), so the form POSTs to /api/comments. Set to an absolute URL only if
+    // the API is hosted on a different origin.
     apiBase: '',
   };
 
@@ -115,15 +116,13 @@
       showSuccessState();
       renderCount();
 
-      // If an API base is configured, POST to the backend (best-effort).
+      // POST to the backend (best-effort). Same origin when apiBase is ''.
       // The UI already shows success; a failure here just keeps the local record.
-      if (CONFIG.apiBase) {
-        fetch(CONFIG.apiBase.replace(/\/$/, '') + '/api/comments', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(entry),
-        }).catch(function () {});
-      }
+      fetch(CONFIG.apiBase.replace(/\/$/, '') + '/api/comments', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(entry),
+      }).catch(function () {});
     });
   }
 
