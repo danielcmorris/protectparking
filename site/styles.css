@@ -336,8 +336,15 @@ textarea:focus-visible {
   color: #8a9098; margin-top: 14px; font-size: clamp(12px, 2vw, 15px);
 }
 .action__grid {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
-  gap: 20px; align-items: stretch;
+  display: grid;
+  grid-template-columns: 2fr 1fr; /* pledge spans 2 cols; side stack is 1 col */
+  gap: 20px;
+  align-items: stretch;
+}
+/* meeting + share stacked beside the wide pledge card */
+.action__side { display: flex; flex-direction: column; gap: 20px; }
+@media (max-width: 860px) {
+  .action__grid { grid-template-columns: 1fr; }
 }
 
 .card { border-radius: 12px; padding: 30px 26px; display: flex; flex-direction: column; }

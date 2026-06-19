@@ -3,36 +3,36 @@
 /**
  * Postgres data-access layer.
  *
- * ⚠️  STUB — not wired up yet.
- * The Pool wiring and SQL are sketched here for reference, but every function
- * currently short-circuits with in-memory/canned behavior so the server runs
- * with no database present. Flip ENABLE_DB (or just finish the TODOs) when the
- * Postgres instance and schema (see db/schema.sql) are provisioned.
+ * The DB activates automatically when DATABASE_URL is set (locally via
+ * ../creds/api.env, on Cloud Run via Secret Manager). With no DATABASE_URL the
+ * layer falls back to an in-memory stub so the server still runs (e.g. the
+ * current deployment before the Cloud SQL connection is attached).
+ *
+ * Schema: see db/schema.sql (table `comments`).
  */
 
 const config = require('./config');
 
-// Toggle to true once a real DATABASE_URL + schema exist.
-const ENABLE_DB = false;
+const ENABLE_DB = !!config.databaseUrl;
 
 let pool = null;
 
 function getPool() {
   if (!ENABLE_DB) return null;
   if (!pool) {
-    // const { Pool } = require('pg');
-    // pool = new Pool({
-    //   connectionString: config.databaseUrl,
-    //   max: 5,
-    //   idleTimeoutMillis: 30000,
-    //   connectionTimeoutMillis: 5000,
-    // });
-    throw new Error('DB pool requested but not implemented yet');
+    const { Pool } = require('pg');
+    pool = new Pool({
+      connectionString: config.databaseUrl,
+      max: 5,
+      idleTimeoutMillis: 30000,
+      connectionTimeoutMillis: 5000,
+    });
+    pool.on('error', (err) => console.error('pg pool error:', err.message));
   }
   return pool;
 }
 
-// In-memory fallback so the stub behaves while the DB is not connected.
+// In-memory fallback so the stub behaves while no DATABASE_URL is configured.
 let stubCount = 1284;
 
 /**
@@ -42,21 +42,18 @@ let stubCount = 1284;
  */
 async function saveComment(entry) {
   if (!ENABLE_DB) {
-    // STUB: pretend we inserted a row.
     stubCount += 1;
     return { id: stubCount };
   }
 
-  // TODO(real impl):
-  // const sql = `
-  //   INSERT INTO comments (name, address, email, district3, comment)
-  //   VALUES ($1, $2, $3, $4, $5)
-  //   RETURNING id`;
-  // const { rows } = await getPool().query(sql, [
-  //   entry.name, entry.address, entry.email, entry.district3, entry.comment,
-  // ]);
-  // return { id: rows[0].id };
-  throw new Error('saveComment not implemented yet');
+  const sql = `
+    INSERT INTO comments (name, address, email, district3, comment)
+    VALUES ($1, $2, $3, $4, $5)
+    RETURNING id`;
+  const { rows } = await getPool().query(sql, [
+    entry.name, entry.address, entry.email, entry.district3, entry.comment,
+  ]);
+  return { id: rows[0].id };
 }
 
 /**
@@ -65,14 +62,11 @@ async function saveComment(entry) {
  */
 async function getCommentCount() {
   if (!ENABLE_DB) {
-    // STUB: canned count.
     return stubCount;
   }
 
-  // TODO(real impl):
-  // const { rows } = await getPool().query('SELECT COUNT(*)::int AS n FROM comments');
-  // return rows[0].n;
-  throw new Error('getCommentCount not implemented yet');
+  const { rows } = await getPool().query('SELECT COUNT(*)::int AS n FROM comments');
+  return rows[0].n;
 }
 
 /**
@@ -80,10 +74,9 @@ async function getCommentCount() {
  * @returns {Promise<boolean>}
  */
 async function ping() {
-  if (!ENABLE_DB) return false; // no DB wired yet
-  // await getPool().query('SELECT 1');
-  // return true;
-  throw new Error('ping not implemented yet');
+  if (!ENABLE_DB) return false;
+  await getPool().query('SELECT 1');
+  return true;
 }
 
 async function close() {
