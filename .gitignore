@@ -1,0 +1,22 @@
+# dependencies
+node_modules/
+npm-debug.log*
+
+# credentials — never commit (project convention: keep these in creds/)
+creds/
+*.env
+.env
+.env.*
+!**/.env.example
+service-account*.json
+
+# build / extraction artifacts
+extracted/
+*.zip
+*.zip:Zone.Identifier
+
+# OS / editor
+.DS_Store
+*.swp
+.vscode/
+.idea/

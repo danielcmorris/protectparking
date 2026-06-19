@@ -1,0 +1,40 @@
+# Cloud Run service definition (Knative spec).
+# Deploy with:
+#   gcloud run services replace deploy/service.yaml --region us-west1
+#
+# DATABASE_URL is pulled from Secret Manager — create the secret first:
+#   echo -n "postgres://..." | gcloud secrets create vallejo-database-url --data-file=-
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: vallejo-street-api
+  labels:
+    app: vallejo-street
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/maxScale: "4"
+        # Uncomment when using Cloud SQL:
+        # run.googleapis.com/cloudsql-instances: PROJECT:us-west1:INSTANCE
+    spec:
+      containerConcurrency: 80
+      timeoutSeconds: 30
+      containers:
+        - image: us-west1-docker.pkg.dev/PROJECT_ID/vallejo/vallejo-street-api:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: NODE_ENV
+              value: production
+            - name: CORS_ORIGINS
+              value: "*"
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: vallejo-database-url
+                  key: latest
+          resources:
+            limits:
+              cpu: "1"
+              memory: 256Mi
