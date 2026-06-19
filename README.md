@@ -1,8 +1,9 @@
 # Stop the Vallejo Street Takeover
 
-Advocacy landing page opposing SFPD's conversion of the lower half of Vallejo
+This is a simple advocacy landing page opposing SFPD's conversion of the lower half of Vallejo
 Street into a police-only tow-away zone, plus a small API to collect public
 comments.
+
 
 ## Layout
 ```
