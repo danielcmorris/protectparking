@@ -30,6 +30,9 @@
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
+/* The [hidden] attribute must win over any element's display rule (form/spinner/
+   success/mobile-menu all set display, which would otherwise keep them visible). */
+[hidden] { display: none !important; }
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; scroll-padding-top: 80px; }
 body {
   font-family: var(--f-body);
