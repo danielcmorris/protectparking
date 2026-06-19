@@ -391,10 +391,33 @@ html.i18n-busy body { visibility: hidden; }
 }
 .checkbox input { flex: 0 0 auto; width: 19px; height: 19px; margin-top: 1px; accent-color: var(--red); cursor: pointer; }
 
-.success {
-  margin-top: 18px; background: #eef7ef; border: 1px solid #bfe2c4; border-radius: 8px;
-  padding: 20px; display: flex; gap: 12px; align-items: flex-start;
+/* submitting spinner */
+.form-spinner {
+  margin-top: 18px; display: flex; flex-direction: column; align-items: center;
+  gap: 14px; padding: 34px 20px;
 }
+.form-spinner__ring {
+  width: 38px; height: 38px; border-radius: 50%;
+  border: 4px solid rgba(227, 32, 26, .2); border-top-color: var(--red);
+  animation: spin .8s linear infinite;
+}
+.form-spinner__label {
+  font-family: var(--f-head); font-weight: 600; letter-spacing: .5px;
+  text-transform: uppercase; font-size: 13px; color: #6b7079;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.success {
+  position: relative;
+  margin-top: 18px; background: #eef7ef; border: 1px solid #bfe2c4; border-radius: 8px;
+  padding: 20px 44px 20px 20px; display: flex; gap: 12px; align-items: flex-start;
+}
+.success__close {
+  position: absolute; top: 10px; right: 10px;
+  width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center;
+  background: transparent; border: 0; border-radius: 6px; cursor: pointer; color: #176e30;
+}
+.success__close:hover { background: #d7ecdb; }
 .success svg { flex: 0 0 auto; }
 .success__title { font-family: var(--f-head); font-weight: 700; text-transform: uppercase; font-size: 16px; color: #176e30; }
 .success__body { margin-top: 4px; font-size: 14px; line-height: 1.45; color: #3f5a45; }

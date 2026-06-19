@@ -330,7 +330,19 @@
             <button type="submit" class="btn btn--red btn--block" data-i18n="form.submit">Submit My Comment</button>
           </form>
 
+          <div id="pledge-spinner" class="form-spinner" hidden>
+            <span class="form-spinner__ring" aria-hidden="true"></span>
+            <span class="form-spinner__label" data-i18n="form.submitting">Submitting…</span>
+          </div>
+
           <div id="pledge-success" class="success" hidden>
+            <button type="button" class="success__close" id="pledge-success-close" aria-label="Close"
+              data-i18n-attr="aria-label:success.close">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 6L6 18M6 6l12 12" />
+              </svg>
+            </button>
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1c8a3b" stroke-width="2.5"
               stroke-linecap="round" stroke-linejoin="round">
               <path d="M20 6L9 17l-5-5" />

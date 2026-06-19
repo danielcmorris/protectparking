@@ -76,9 +76,12 @@
   /* ---- comment form ---- */
   var STORAGE_KEY = 'vallejoPledge';
   var form = $('#pledge-form');
+  var spinner = $('#pledge-spinner');
   var success = $('#pledge-success');
+  var successClose = $('#pledge-success-close');
   var countEl = $('#pledge-count-num');
   var pledgeCount = CONFIG.pledgeCountSeed;
+  var MIN_SPINNER_MS = 1500;
 
   function readStored() {
     try {
@@ -87,9 +90,11 @@
     } catch (e) {}
     return null;
   }
-  function showSuccessState() {
-    if (form) form.hidden = true;
-    if (success) success.hidden = false;
+  // Exactly one of the three pledge views is visible: 'form' | 'spinner' | 'success'.
+  function showState(state) {
+    if (form) form.hidden = state !== 'form';
+    if (spinner) spinner.hidden = state !== 'spinner';
+    if (success) success.hidden = state !== 'success';
   }
   function renderCount() {
     if (countEl && typeof pledgeCount === 'number') {
@@ -101,7 +106,7 @@
   var stored = readStored();
   if (stored) {
     if (typeof stored.count === 'number') pledgeCount = stored.count;
-    if (stored.pledged) showSuccessState();
+    if (stored.pledged) showState('success');
   }
   renderCount();
 
@@ -120,22 +125,44 @@
         comment: (data.get('comment') || '').toString().trim(),
       };
 
-      // Optimistically reflect the submission locally.
-      pledgeCount = (pledgeCount || CONFIG.pledgeCountSeed) + 1;
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify({ pledged: true, count: pledgeCount, lastEntry: entry }));
-      } catch (err) {}
+      // Hide the form and show the spinner while the post is in flight.
+      showState('spinner');
+      var started = Date.now();
 
-      showSuccessState();
-      renderCount();
+      // Only reveal the confirmation once the post has returned AND the spinner
+      // has been visible for at least MIN_SPINNER_MS. The backend is best-effort,
+      // so a network failure still confirms (the local record is kept).
+      function finalize() {
+        var wait = Math.max(0, MIN_SPINNER_MS - (Date.now() - started));
+        setTimeout(function () {
+          pledgeCount = (pledgeCount || CONFIG.pledgeCountSeed) + 1;
+          try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify({ pledged: true, count: pledgeCount, lastEntry: entry }));
+          } catch (err) {}
+          renderCount();
+          showState('success');
+        }, wait);
+      }
 
-      // POST to the backend (best-effort). Same origin when apiBase is ''.
-      // The UI already shows success; a failure here just keeps the local record.
+      // POST to the backend (same origin when apiBase is ''). finalize on either outcome.
       fetch(CONFIG.apiBase.replace(/\/$/, '') + '/api/comments', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(entry),
-      }).catch(function () {});
+      }).then(finalize, finalize);
+    });
+  }
+
+  // Close the confirmation: clear the pledged flag (keep the count) and show a blank form.
+  if (successClose) {
+    successClose.addEventListener('click', function () {
+      try {
+        var s = readStored() || {};
+        s.pledged = false;
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(s));
+      } catch (e) {}
+      if (form) form.reset();
+      showState('form');
     });
   }
 

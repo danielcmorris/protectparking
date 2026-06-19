@@ -85,11 +85,13 @@
     "joinMeeting": "I will join the meeting",
     "readStatement": "Please read my statement for me",
     "commentPlaceholder": "Your comment (optional)",
-    "submit": "Submit My Comment"
+    "submit": "Submit My Comment",
+    "submitting": "Submitting…"
   },
   "success": {
     "title": "Your comment is on record.",
-    "body": "Thank you — now spread the word and show up June 26."
+    "body": "Thank you — now spread the word and show up June 26.",
+    "close": "Close"
   },
   "meeting": {
     "h3": "Show up & speak",

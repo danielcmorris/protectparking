@@ -85,11 +85,13 @@
     "joinMeeting": "我會參加公聽會",
     "readStatement": "請代我宣讀我的聲明",
     "commentPlaceholder": "您的意見（選填）",
-    "submit": "提交我的意見"
+    "submit": "提交我的意見",
+    "submitting": "提交中…"
   },
   "success": {
     "title": "您的意見已記錄在案。",
-    "body": "謝謝您——現在請廣傳訊息，並在6月26日出席。"
+    "body": "謝謝您——現在請廣傳訊息，並在6月26日出席。",
+    "close": "關閉"
   },
   "meeting": {
     "h3": "出席並發言",
