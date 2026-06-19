@@ -1,27 +1,39 @@
-# Cloud Run service definition (Knative spec).
-# Deploy with:
-#   gcloud run services replace deploy/service.yaml --region us-west1
+# Cloud Run service definition (Knative spec) — reflects the live `parking`
+# service config. NOTE: production deploys happen via the Cloud Run GitHub
+# connector trigger (build-on-push); this file documents the runtime config and
+# can re-apply it directly with:
+#   gcloud run services replace api/deploy/service.yaml --region us-west1
 #
-# DATABASE_URL is pulled from Secret Manager — create the secret first:
-#   echo -n "postgres://..." | gcloud secrets create vallejo-database-url --data-file=-
+# The DATABASE_URL secret + Cloud SQL attachment were set on the service with:
+#   gcloud run services update parking --region=us-west1 \
+#     --add-cloudsql-instances=morrisdev-203721:us-central1:morrisdev \
+#     --update-secrets=DATABASE_URL=protectparking-database-url:latest
+#
+# Secret was created from creds/api.env (socket-form connection string):
+#   gcloud secrets create protectparking-database-url --data-file=-
 apiVersion: serving.knative.dev/v1
 kind: Service
 metadata:
-  name: vallejo-street-api
+  name: parking
   labels:
-    app: vallejo-street
+    app: protectparking
 spec:
   template:
     metadata:
       annotations:
-        autoscaling.knative.dev/maxScale: "4"
-        # Uncomment when using Cloud SQL:
-        # run.googleapis.com/cloudsql-instances: PROJECT:us-west1:INSTANCE
+        autoscaling.knative.dev/maxScale: "20"
+        run.googleapis.com/startup-cpu-boost: "true"
+        # Mounts the Cloud SQL unix socket at /cloudsql/<connection-name>,
+        # which the DATABASE_URL connection string points to.
+        run.googleapis.com/cloudsql-instances: morrisdev-203721:us-central1:morrisdev
     spec:
+      serviceAccountName: 682935653385-compute@developer.gserviceaccount.com
       containerConcurrency: 80
       timeoutSeconds: 30
       containers:
-        - image: us-west1-docker.pkg.dev/PROJECT_ID/vallejo/vallejo-street-api:latest
+        # Image is published by the GitHub-connector build; :latest shown for
+        # manual replace. The trigger pins an immutable per-commit tag.
+        - image: us-west1-docker.pkg.dev/morrisdev-203721/cloud-run-source-deploy/protectparking/parking:latest
           ports:
             - containerPort: 8080
           env:
@@ -32,7 +44,7 @@ spec:
             - name: DATABASE_URL
               valueFrom:
                 secretKeyRef:
-                  name: vallejo-database-url
+                  name: protectparking-database-url
                   key: latest
           resources:
             limits:
