@@ -1,0 +1,12 @@
+# Keep the API image lean: only api/ is needed by the root Dockerfile.
+.git
+.gitignore
+node_modules
+**/node_modules
+creds
+extracted
+*.zip
+*.zip:Zone.Identifier
+site
+*.md
+**/*.md
