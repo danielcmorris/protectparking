@@ -1,7 +1,12 @@
 # Build + push + deploy the API to Cloud Run.
-# Run from the api/ directory:
-#   gcloud builds submit --config deploy/cloudbuild.yaml \
-#     --substitutions=_REGION=us-west1,_REPO=vallejo
+#
+# Paths below are relative to the REPO ROOT, because GitHub-triggered builds run
+# from the repo root (/workspace). Point the trigger's config file at
+# `api/deploy/cloudbuild.yaml`.
+#
+# Manual run (from the repo root):
+#   gcloud builds submit --config api/deploy/cloudbuild.yaml \
+#     --substitutions=_REGION=us-west1,_REPO=vallejo .
 #
 # NOTE: this builds a container image and deploys to Cloud Run. It does not call
 # any Google data/AI services at runtime — the only external dependency is Postgres.
@@ -14,11 +19,13 @@ steps:
   - name: gcr.io/cloud-builders/docker
     args:
       - build
+      - -f
+      - api/Dockerfile
       - -t
       - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_SERVICE}:$SHORT_SHA
       - -t
       - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_SERVICE}:latest
-      - .
+      - api
 
   - name: gcr.io/cloud-builders/docker
     args: [push, --all-tags, "${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_SERVICE}"]
