@@ -223,7 +223,15 @@ html.i18n-busy body { visibility: hidden; }
 }
 .hero__sub strong { color: #fff; }
 
-.hero__cta { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 14px; }
+/* Keep both CTAs on one row on desktop; let the long secondary button hang over
+   the column edge instead of being pushed below the primary. */
+.hero__cta { margin-top: 28px; display: flex; flex-wrap: nowrap; gap: 14px; }
+.hero__cta .btn--outline { white-space: nowrap; flex-shrink: 0; }
+/* On phones, fall back to wrapping/stacking so the long label doesn't run off-screen. */
+@media (max-width: 700px) {
+  .hero__cta { flex-wrap: wrap; }
+  .hero__cta .btn--outline { white-space: normal; }
+}
 
 .hero__shield {
   flex: 0 0 auto; margin: 0 auto; position: relative;

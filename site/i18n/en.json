@@ -28,8 +28,8 @@
     "h1Line2": "Vallejo Street",
     "h1Line3": "Takeover",
     "sub": "SFPD is converting the lower half of Vallejo Street into a <strong>police-only tow-away zone</strong> — removing public access from a street that belongs to all of us.",
-    "ctaPrimary": "Make Your Opinion Clear",
-    "ctaSecondary": "Attend June 26 Meeting",
+    "ctaPrimary": "Voice Your Opinion",
+    "ctaSecondary": "Attend the SFMTA Online Hearing on June 26",
     "shieldSrc": "assets/towaway-shield.png",
     "shieldAlt": "SFPD is converting the lower half of Vallejo Street to a police-only tow-away zone",
     "streetAlt": "Police vehicles lining the lower half of Vallejo Street",
@@ -44,9 +44,9 @@
     "card1Title": "The lower half of Vallejo St.",
     "card1Body": "SFPD is converting the lower portion of the street directly into department use — not a temporary closure.",
     "card2Title": "Public access removed",
-    "card2Body": "Parking and through-access the neighborhood relies on disappear — reserved exclusively for police vehicles.",
+    "card2Body": "Parking that the neighborhood relies on disappears and is reserved exclusively for police vehicles.",
     "card3Title": "A tow-away zone",
-    "card3Body": "Any non-police vehicle is subject to towing — closing the block to residents, visitors, and local businesses."
+    "card3Body": "Any non-police vehicle is subject to towing — reducing access to residents, visitors, and local businesses."
   },
   "voices": {
     "photoAlt": "Supervisor Danny Sauter with SFPD officers in Chinatown",
@@ -59,19 +59,23 @@
     "q1": "Why is public street space being converted to police-only use?",
     "a1": "<b>MONEY</b>. There are 2 parking garages adjacent to the police department where they <b><i>already</i></b> park many of their cars. Rather than spending money out of their budget to rent more spaces, they want to take away residental parking spots so you can pay for it with your time and money, as you circle around looking even longer for parking, or break down and pay $375/month for a garage space.",
     "q2": "How many parking spaces and public access areas will be lost?",
-    "a2": "The first 60 feet on both sides of Vallejo will be taken up. As driveways then come, the space between the driveway and the end of the new tow-away-zone will likely be too small for a resident to park and we all know the police cars will be hanging out over the end. At a minium, we're looking at 5-6 spots, but the likelihood is more like 8-10 actual parking spaces will be lost.",
+    "a2": "The first 60 feet on both sides of Vallejo will be taken up. As driveways then come, the space between the driveway and the end of the new tow-away-zone will likely be too small for a resident to park and we all know the police cars will be hanging out over the end. At a minimum, we're looking at 5-6 spots, but the likelihood is more like 8-10 actual parking spaces will be lost.",
     "q3": "What alternatives were considered?",
-    "a3": "None. The residental parking recind request was made without considering alternatives. They posted an english-only sign with small print that does not clearly indicate the changes that will be implemented nore when they will be implemented.",
+    "a3": "None. The residental parking request to rescind was made without considering alternatives. They posted an English-only sign with small print that does not clearly indicate the changes that will be implemented more when they will be implemented.",
     "q4": "How will this affect you?",
     "a4": "We are already renowned across the city for our parking scarcity, and this will only make it worse. We circle endlessly looking for a spot, or break down and pay $375 a month for a garage space. We get aggravated seeing someone just sitting in their car—imagine how much worse it will be to see police cars parked and idle, doing nothing. Half the time there are empty spaces in front of the police department; now that will be happening on Vallejo Street too. So as you circle around and around, you'll get to watch those empty spaces taunt you."
   },
   "action": {
     "h2": "Learn more. <span class=\"action__accent\">Get involved.</span> Make your voice heard.",
-    "tagline": "— Our streets. Our city. Our voice. —"
+         "tagline1": "Complete the form below and/or attend the online public hearing on June 26.",
+
+    "tagline2": "— Our streets. Our city. Our voice. —"
   },
   "pledge": {
     "h3": "Make your opinion clear",
-    "sub": "Put your concerns on the record and demand a public process before any street is handed over.",
+    "sub1": "Put your concerns on the record and demand a public process before any street is handed over. ",
+    "sub2": "Your comments will be shared with the district supervisor, Danny Sauter, and at the public hearing.",
+     
     "countLabel": "neighbors have spoken up"
   },
   "form": {
@@ -80,9 +84,10 @@
     "addressPlaceholder": "Street address",
     "addressHint": "If you don't want your full address listed, a street name or cross street is adequate.",
     "emailPlaceholder": "Email address",
-    "emailHint": "Your email will not be published.",
+    "emailHint": "Your email will not be published or sold.",
     "district3": "I am a District 3 resident",
-    "joinMeeting": "I will join the meeting",
+    "joinMeeting": "I will join the public hearing",
+     
     "readStatement": "Please read my statement for me",
     "commentPlaceholder": "Your comment (optional)",
     "submit": "Submit My Comment",
@@ -95,11 +100,11 @@
   },
   "meeting": {
     "h3": "Show up & speak",
-    "title": "Public Meeting",
+    "title": "Online Public Hearing",
     "when": "Friday, June 26, 2026 — 10:00 AM",
     "addCalendar": "Add to Calendar",
-    "call": "Call 415-523-2709",
-    "join": "Join the Meeting"
+    "call": "415-523-2709 | Code: 836.632.456#",
+    "join": "Join the Online Hearing"
   },
   "links": {
     "h3": "Important Links!",
@@ -108,7 +113,8 @@
     "l2": "SFMTA Parking Rescind Request (English)",
     "l3": "SFMTA 停车撤销请求 (中文)",
     "l4": "Join the Public Hearing Online",
-    "l5": "Contact Supervisor Danny Sauter"
+    "l5": "Contact Supervisor Danny Sauter",
+    "l6": "Review the Meeting Agenda"
   },
   "share": {
     "h3": "Spread the word",
@@ -124,12 +130,12 @@
   },
   "ics": {
     "summary": "Public Meeting — Stop the Vallejo Street Takeover",
-    "description": "Call-in #: 415.523.2709. and enter conference ID 836 632 456#",
+    "description": "Call-in #: 415.523.2709 and enter conference ID 836 632 456#",
     "location": "Call-in #: 415-523-2709"
   },
   "footer": {
     "meeting": "Meeting June 26th at 10AM",
-    "callin": "Call-in #: 415-523-2709",
+    "callin": "Call-in #: 415-523-2709  and enter conference ID 836 632 456#",
     "joinOnline": "join online",
     "bar": "Our streets · Our city · Our voice"
   }

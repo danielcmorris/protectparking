@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SFMTA Public Hearing — Order #7016 / 公开听证会</title>
+<style>
+  :root {
+    --ink: #1a1d24;
+    --ink-soft: #4a5160;
+    --rule: #d4d7dd;
+    --rule-soft: #e8eaee;
+    --paper: #ffffff;
+    --band: #f4f5f7;
+    --accent: #c8102e;       /* SFMTA red */
+    --accent-deep: #8a0a1f;
+    --tag-bg: #eef1f6;
+    --tag-ink: #3a4254;
+    --max: 940px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--band);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.55;
+    font-size: 16px;
+  }
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 20px; }
+
+  /* ---- Masthead ---- */
+  header.mast {
+    background: var(--paper);
+    border-bottom: 3px solid var(--accent);
+  }
+  .mast-inner {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 26px 20px 22px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+  .logo {
+    display: flex; align-items: center; gap: 12px;
+  }
+  .logo .glyph {
+    width: 50px; height: 50px;
+    background: var(--ink);
+    color: #fff;
+    border-radius: 6px;
+    display: grid; place-items: center;
+    font-weight: 800; font-size: 26px; letter-spacing: -1px;
+    font-family: Georgia, serif;
+  }
+  .logo .word {
+    font-weight: 800; font-size: 26px; letter-spacing: 1px; color: var(--ink);
+  }
+  .mast-titles { flex: 1; min-width: 240px; }
+  .mast-titles .agency {
+    font-size: 13px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--ink-soft); font-weight: 600;
+  }
+  .mast-titles .order {
+    font-size: 22px; font-weight: 800; margin-top: 2px;
+  }
+  .mast-titles .kind {
+    font-size: 13px; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--accent); font-weight: 700;
+  }
+
+  /* ---- Language toggle ---- */
+  .langbar {
+    position: sticky; top: 0; z-index: 50;
+    background: var(--ink);
+    border-bottom: 1px solid rgba(255,255,255,.08);
+  }
+  .langbar-inner {
+    max-width: var(--max); margin: 0 auto; padding: 8px 20px;
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  }
+  .langbar .label {
+    color: #aeb6c6; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; margin-right: 4px;
+  }
+  .toggle {
+    display: inline-flex; background: rgba(255,255,255,.08); border-radius: 999px; padding: 3px;
+  }
+  .toggle button {
+    appearance: none; border: 0; cursor: pointer;
+    background: transparent; color: #cdd3df;
+    padding: 6px 16px; border-radius: 999px; font-size: 14px; font-weight: 600;
+    transition: background .15s, color .15s;
+  }
+  .toggle button.active { background: var(--accent); color: #fff; }
+  .toggle button:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+
+  /* ---- Hero summary card ---- */
+  main { padding: 28px 0 60px; }
+  .summary {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    padding: 26px 28px;
+    margin-bottom: 26px;
+    box-shadow: 0 1px 3px rgba(20,25,40,.05);
+  }
+  .summary h1 {
+    margin: 0 0 4px; font-size: 24px; font-weight: 800; line-height: 1.25;
+  }
+  .when {
+    display: inline-flex; align-items: baseline; gap: 10px;
+    background: var(--tag-bg); border-radius: 8px; padding: 8px 14px; margin: 10px 0 14px;
+    font-weight: 600;
+  }
+  .when .big { color: var(--accent-deep); font-size: 18px; }
+  .summary p { margin: 0 0 10px; color: var(--ink-soft); }
+  .summary .nodecision {
+    font-weight: 700; color: var(--ink);
+  }
+
+  /* ---- Participation grid ---- */
+  .participate {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 14px; margin-bottom: 30px;
+  }
+  .pcard {
+    background: var(--paper); border: 1px solid var(--rule); border-radius: 10px;
+    padding: 18px 18px 16px;
+  }
+  .pcard h3 {
+    margin: 0 0 8px; font-size: 14px; letter-spacing: .04em; text-transform: uppercase;
+    color: var(--accent); font-weight: 700;
+    border-bottom: 1px solid var(--rule-soft); padding-bottom: 8px;
+  }
+  .pcard p { margin: 0 0 8px; font-size: 14.5px; color: var(--ink-soft); }
+  .pcard a { color: var(--accent-deep); font-weight: 600; word-break: break-word; }
+  .pcard .dial { font-weight: 700; color: var(--ink); }
+  .pcard ul { margin: 6px 0 0; padding-left: 18px; font-size: 14px; color: var(--ink-soft); }
+
+  /* ---- Section heads ---- */
+  .agenda-head {
+    display: flex; align-items: baseline; gap: 12px;
+    border-bottom: 2px solid var(--ink); padding-bottom: 6px; margin: 8px 0 18px;
+  }
+  .agenda-head h2 { margin: 0; font-size: 20px; font-weight: 800; }
+  .agenda-head .count {
+    font-size: 13px; color: var(--ink-soft); font-weight: 600;
+  }
+  .pubcomment {
+    background: var(--band); border-left: 4px solid var(--rule); border-radius: 0 8px 8px 0;
+    padding: 12px 16px; margin-bottom: 22px; font-size: 14.5px; color: var(--ink-soft);
+  }
+
+  /* ---- Agenda items ---- */
+  .item {
+    background: var(--paper); border: 1px solid var(--rule); border-radius: 10px;
+    padding: 18px 20px; margin-bottom: 16px;
+  }
+  .item-top { display: flex; gap: 14px; align-items: flex-start; }
+  .num {
+    flex: 0 0 auto; min-width: 34px; height: 34px; padding: 0 8px;
+    background: var(--ink); color: #fff; border-radius: 8px;
+    display: grid; place-items: center; font-weight: 800; font-size: 15px;
+  }
+  .item-body { flex: 1; min-width: 0; }
+  .loc {
+    font-weight: 700; font-size: 16px; margin: 2px 0 8px; color: var(--ink);
+  }
+  .actions { margin: 0 0 10px; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 5px; }
+  .actions li {
+    font-size: 13.5px; font-weight: 700; letter-spacing: .02em;
+    display: inline-flex; align-items: flex-start; gap: 8px;
+  }
+  .chip {
+    flex: 0 0 auto; font-size: 11px; padding: 2px 8px; border-radius: 999px; font-weight: 800;
+    text-transform: uppercase; letter-spacing: .04em; margin-top: 1px;
+  }
+  .chip.est { background: #e3f3e8; color: #1c6b3a; }
+  .chip.res { background: #fbe7e7; color: #9a2222; }
+  .geo { font-size: 14px; color: var(--ink-soft); margin: 4px 0 10px; }
+  .geo .seg { display: block; padding: 1px 0; }
+  .desc { font-size: 14.5px; color: var(--ink); margin: 0 0 12px; }
+  .meta { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .tag {
+    font-size: 12px; background: var(--tag-bg); color: var(--tag-ink);
+    padding: 3px 10px; border-radius: 999px; font-weight: 600;
+  }
+  .tag.board { background: #fff3d6; color: #8a5a00; }
+  .tag.cte { background: #e4ecfb; color: #1f4699; }
+  .staff a { color: var(--accent-deep); font-weight: 600; }
+
+  .subblock { margin-top: 10px; padding-top: 8px; border-top: 1px dashed var(--rule); }
+  .subblock .sublabel { font-weight: 800; font-size: 13.5px; }
+
+  /* ---- CEQA / footer ---- */
+  .ceqa {
+    background: var(--paper); border: 1px solid var(--rule); border-radius: 10px;
+    padding: 16px 20px; margin: 8px 0 18px; font-size: 13px; color: var(--ink-soft);
+  }
+  .ceqa strong { color: var(--ink); }
+  .signoff {
+    background: var(--paper); border: 1px solid var(--rule); border-radius: 10px;
+    padding: 18px 20px; margin-top: 18px;
+  }
+  .signoff .sig { font-family: "Brush Script MT", cursive; font-size: 22px; color: var(--ink); }
+  .signoff .name { font-weight: 700; margin-top: 2px; }
+  .signoff .role { font-size: 14px; color: var(--ink-soft); }
+  .footmeta { font-size: 12.5px; color: var(--ink-soft); margin-top: 14px; }
+
+  footer.pagefoot {
+    text-align: center; font-size: 12px; color: var(--ink-soft);
+    padding: 24px 20px 40px;
+  }
+
+  /* language visibility */
+  [data-lang] { display: none; }
+  body.lang-en [data-lang="en"] { display: revert; }
+  body.lang-zh [data-lang="zh"] { display: revert; }
+  /* inline spans */
+  span[data-lang] { display: none; }
+  body.lang-en span[data-lang="en"] { display: inline; }
+  body.lang-zh span[data-lang="zh"] { display: inline; }
+  /* list items */
+  li[data-lang] { display: none; }
+  body.lang-en li[data-lang="en"] { display: flex; }
+  body.lang-zh li[data-lang="zh"] { display: flex; }
+  body.lang-zh { font-size: 16px; }
+
+  @media (max-width: 560px) {
+    .mast-titles .order { font-size: 19px; }
+    .summary { padding: 20px; }
+    .item { padding: 16px; }
+  }
+</style>
+</head>
+<body class="lang-en">
+
+<div class="langbar">
+  <div class="langbar-inner">
+    <span class="label" data-lang="en">Language</span>
+    <span class="label" data-lang="zh">语言</span>
+    <div class="toggle" role="group" aria-label="Language selector">
+      <button id="btn-en" class="active" onclick="setLang('en')">English</button>
+      <button id="btn-zh" onclick="setLang('zh')">中文</button>
+    </div>
+  </div>
+</div>
+
+<header class="mast">
+  <div class="mast-inner">
+    <div class="logo">
+      <div class="glyph">M</div>
+      <div class="word">SFMTA</div>
+    </div>
+    <div class="mast-titles">
+      <div class="agency" data-lang="en">San Francisco Municipal Transportation Agency</div>
+      <div class="agency" data-lang="zh">旧金山市政交通局</div>
+      <div class="order">Order&nbsp;#&nbsp;7016</div>
+      <div class="kind" data-lang="en">Notice of Public Hearing</div>
+      <div class="kind" data-lang="zh">公开听证会通知</div>
+    </div>
+  </div>
+</header>
+
+<main>
+<div class="wrap">
+
+  <!-- SUMMARY -->
+  <section class="summary">
+    <h1 data-lang="en">Streets Division Online Public Hearing</h1>
+    <h1 data-lang="zh">街道部门线上公开听证会</h1>
+
+    <div class="when">
+      <span data-lang="en">Friday, June 26, 2026 · <span class="big">10:00 AM</span> · Online</span>
+      <span data-lang="zh">2026年6月26日（星期五）· <span class="big">上午10:00</span> · 线上举行</span>
+    </div>
+
+    <p data-lang="en">The Streets Division of the SFMTA will hold an online public hearing to consider the matters listed below.</p>
+    <p data-lang="zh">旧金山市政交通局街道部门将举行线上公开听证会，审议以下列出的各项事宜。</p>
+
+    <p class="nodecision" data-lang="en">The purpose of this hearing is to gather public feedback. No decisions will be made on these items at the hearing.</p>
+    <p class="nodecision" data-lang="zh">本次听证会的目的是收集公众意见。听证会当天不会对这些事项做出任何决定。</p>
+
+    <p data-lang="en">Based on all feedback received by the end of the hearing day, the SFMTA will post its decisions by 5 p.m. the following Friday on the SFMTA website. Items may be heard out of sequence.</p>
+    <p data-lang="zh">根据听证会当天结束前收到的所有意见，市政交通局将于下一个星期五下午5点前在其官网公布决定。各项事宜可能不按顺序审议。</p>
+  </section>
+
+  <!-- PARTICIPATION -->
+  <div class="participate">
+    <div class="pcard">
+      <h3 data-lang="en">Join Online</h3>
+      <h3 data-lang="zh">线上参加</h3>
+      <p data-lang="en">Join the Teams meeting at <a href="https://SFMTA.com/EngHearing">SFMTA.com/EngHearing</a>. Click the "Raise your hand" icon, then the microphone icon when prompted to speak.</p>
+      <p data-lang="zh">通过 <a href="https://SFMTA.com/EngHearing">SFMTA.com/EngHearing</a> 加入 Teams 会议。点击"举手"图标，在提示发言时点击麦克风图标。</p>
+    </div>
+    <div class="pcard">
+      <h3 data-lang="en">Join by Phone</h3>
+      <h3 data-lang="zh">电话参加</h3>
+      <p data-lang="en"><span class="dial">Dial (415) 523-2709</span><br>Conference ID: <span class="dial">836 632 456#</span></p>
+      <p data-lang="zh"><span class="dial">拨打 (415) 523-2709</span><br>会议 ID：<span class="dial">836 632 456#</span></p>
+      <p data-lang="en">Press <strong>*5</strong> to enter the public comment queue, then <strong>*6</strong> to unmute when prompted.</p>
+      <p data-lang="zh">按 <strong>*5</strong> 加入公众评论队列，提示时按 <strong>*6</strong> 解除静音。</p>
+    </div>
+    <div class="pcard">
+      <h3 data-lang="en">Submit in Writing</h3>
+      <h3 data-lang="zh">书面提交</h3>
+      <p data-lang="en">Email the project staff listed with each item, using "Public Hearing" in the subject line. Or mail: SFMTA, 1 South Van Ness, 7th Floor, San Francisco, CA 94103.</p>
+      <p data-lang="zh">将意见电邮给每个事项列出的项目工作人员，主题栏注明"Public Hearing"。或邮寄至：SFMTA, 1 South Van Ness, 7th Floor, San Francisco, CA 94103。</p>
+    </div>
+  </div>
+
+  <!-- AGENDA HEADER -->
+  <div class="agenda-head">
+    <h2 data-lang="en">Agenda Items</h2>
+    <h2 data-lang="zh">议程事项</h2>
+    <span class="count" data-lang="en">15 items</span>
+    <span class="count" data-lang="zh">共 15 项</span>
+  </div>
+
+  <div class="pubcomment">
+    <span data-lang="en"><strong>Public Comment:</strong> Members of the public may comment on matters not on today's calendar.</span>
+    <span data-lang="zh"><strong>公众评论：</strong>公众可就今日议程之外的事项发表意见。</span>
+  </div>
+
+  <!-- ITEM 1 -->
+  <article class="item">
+    <div class="item-top">
+      <div class="num">1</div>
+      <div class="item-body">
+        <div class="loc" data-lang="en">Mission Street at South Van Ness Avenue — Tow-Away No Stopping Any Time</div>
+        <div class="loc" data-lang="zh">Mission 街与 South Van Ness 大道交叉口 — 全天候拖移禁停区</div>
+        <ul class="actions">
+          <li data-lang="en"><span class="chip est">Establish</span> Tow-Away, No Stopping, Any Time</li>
+          <li data-lang="zh"><span class="chip est">设立</span> 全天候拖移禁停区</li>
+        </ul>
+        <div class="geo">
+          <span class="seg" data-lang="en">Mission Street, south side, from 206 ft to 226 ft west of South Van Ness Avenue (removes meter #1629)</span>
+          <span class="seg" data-lang="zh">Mission 街南侧，South Van Ness 大道以西 206 至 226 英尺处（拆除 #1629 号停车收费表）</span>
+        </div>
+        <p class="desc" data-lang="en">Extends the existing Tow-Away No Stopping zone to give Muni buses more maneuvering space when entering the rightmost lane.</p>
+        <p class="desc" data-lang="zh">扩大现有拖移禁停区，为 Muni 巴士进入最右侧车道提供更多操作空间。</p>
+        <div class="meta">
+          <span class="tag board" data-lang="en">Requires SFMTA Board approval</span>
+          <span class="tag board" data-lang="zh">需经 SFMTA 董事会批准</span>
+          <span class="tag" data-lang="en">Supervisor District 6</span>
+          <span class="tag" data-lang="zh">第 6 监事区</span>
+          <span class="tag staff">Amy Chun · <a href="mailto:amy.chun@sfmta.com">amy.chun@sfmta.com</a></span>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- ITEM 2 -->
+  <article class="item">
+    <div class="item-top">
+      <div class="num">2</div>
+      <div class="item-body">
+        <div class="loc" data-lang="en">Chestnut Street at Larkin Street — Raised Crosswalks</div>
+        <div class="loc" data-lang="zh">Chestnut 街与 Larkin 街交叉口 — 抬高式人行横道</div>
+        <ul class="actions">
+          <li data-lang="en"><span class="chip est">Establish</span> Raised Crosswalks</li>
+          <li data-lang="zh"><span class="chip est">设立</span> 抬高式人行横道</li>
+        </ul>
+        <p class="desc" data-lang="en">Install raised crosswalks on the north, east and south crosswalks, at the request of the District 3 supervisor's office.</p>
+        <p class="desc" data-lang="zh">应第 3 监事区监事办公室要求，在北、东、南三处人行横道安装抬高式人行横道。</p>
+        <div class="meta">
+          <span class="tag cte" data-lang="en">Approvable by City Traffic Engineer</span>
+          <span class="tag cte" data-lang="zh">可由市交通工程师批准</span>
+          <span class="tag" data-lang="en">Supervisor Districts 2 &amp; 3</span>
+          <span class="tag" data-lang="zh">第 2 及第 3 监事区</span>
+          <span class="tag staff">Philip Louie · <a href="mailto:philip.louie@sfmta.com">philip.louie@sfmta.com</a></span>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- ITEM 3 -->
+  <article class="item">
+    <div class="item-top">
+      <div class="num">3</div>
+      <div class="item-body">
+        <div class="loc" data-lang="en">Taraval Street between Lenox Way and Claremont Boulevard</div>
+        <div class="loc" data-lang="zh">Taraval 街，Lenox Way 与 Claremont 大道之间</div>
+        <ul class="actions">
+          <li data-lang="en"><span class="chip res">Rescind</span> No Stopping, School Bus Loading Only, 7 AM–4 PM, School Days</li>
+          <li data-lang="zh"><span class="chip res">撤销</span> 禁停，仅限校车上下客，上午7点至下午4点，上学日</li>
+        </ul>
+        <div class="geo">
+          <span class="seg" data-lang="en">Taraval Street, south side, from 14 ft to 94 ft east of Lenox Way</span>
+          <span class="seg" data-lang="zh">Taraval 街南侧，Lenox Way 以东 14 至 94 英尺处</span>
+        </div>
+        <p class="desc" data-lang="en">Removes the school bus loading zone, which was a temporary relocation during the school's renovation project.</p>
+        <p class="desc" data-lang="zh">取消校车上下客区，该区域是学校翻修期间的临时迁移设置。</p>
+        <div class="meta">
+          <span class="tag cte" data-lang="en">Approvable by City Traffic Engineer</span>
+          <span class="tag cte" data-lang="zh">可由市交通工程师批准</span>
+          <span class="tag" data-lang="en">Supervisor District 7</span>
+          <span class="tag" data-lang="zh">第 7 监事区</span>
+          <span class="tag staff">André Wright · <a href="mailto:Andre.Wright@sfmta.com">Andre.Wright@sfmta.com</a></span>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- ITEM 4 -->
+  <article class="item">
+    <div class="item-top">
+      <div class="num">4</div>
+      <div class="item-body">
+        <div class="loc" data-lang="en">6th Street, north side, between Clara Street and Harrison Street — Residential Permit Parking Extension</div>
+        <div class="loc" data-lang="zh">6 街北侧，Clara 街与 Harrison 街之间 — 居民停车许可区扩展</div>
+        <ul class="actions">
+          <li data-lang="en"><span class="chip est">Establish</span> Residential Permit Parking Area U (eligibility only, no signs)</li>
+          <li data-lang="zh"><span class="chip est">设立</span> 居民停车许可 U 区（仅授予资格，不设标志）</li>
+        </ul>
+        <p class="desc" data-lang="en">Adds RPP Area U so residents on this block can purchase permits to park within Area U.</p>
+        <p class="desc" data-lang="zh">新增居民停车许可 U 区，使该街区居民可购买许可证在 U 区停车。</p>
+        <div class="meta">
+          <span class="tag board" data-lang="en">Requires SFMTA Board approval</span>
+          <span class="tag board" data-lang="zh">需经 SFMTA 董事会批准</span>
+          <span class="tag" data-lang="en">Supervisor District 6</span>
+          <span class="tag" data-lang="zh">第 6 监事区</span>
+          <span class="tag staff">Lulu Brien · <a href="mailto:lulu.brien@sfmta.com">lulu.brien@sfmta.com</a></span>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- ITEM 5 -->
+  <article class="item">
+    <div class="item-top">
+      <div class="num">5</div>
+      <div class="item-body">
+        <div class="loc" data-lang="en">Mission Street, east side, between Fair Avenue and Powers Avenue — Residential Permit Parking Extension</div>
+        <div class="loc" data-lang="zh">Mission 街东侧，Fair 大道与 Powers 大道之间 — 居民停车许可区扩展</div>
+        <ul class="actions">
+          <li data-lang="en"><span class="chip est">Establish</span> Residential Permit Parking Area AA (eligibility only, no signs)</li>
+          <li data-lang="zh"><span class="chip est">设立</span> 居民停车许可 AA 区（仅授予资格，不设标志）</li>
+        </ul>
+        <p class="desc" data-lang="en">Adds RPP Area AA so residents on this block can purchase permits to park within Area AA.</p>
+        <p class="desc" data-lang="zh">新增居民停车许可 AA 区，使该街区居民可购买许可证在 AA 区停车。</p>
+        <div class="meta">
+          <span class="tag board" data-lang="en">Requires SFMTA Board approval</span>
+          <span class="tag board" data-lang="zh">需经 SFMTA 董事会批准</span>
+          <span class="tag" data-lang="en">Supervisor District 9</span>
+          <span class="tag" data-lang="zh">第 9 监事区</span>
+          <span class="tag staff">Lulu Brien · <a href="mailto:lulu.brien@sfmta.com">lulu.brien@sfmta.com</a></span>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- ITEM 6 -->
+  <article class="item">
+    <div class="item-top">
+      <div class="num">6</div>
+      <div class="item-body">
+        <div class="loc" data-lang="en">Mission Street, east side, between Eugenia Avenue and Godeus Street — Residential Permit Parking Extension</div>
+        <div class="loc" data-lang="zh">Mission 街东侧，Eugenia 大道与 Godeus 街之间 — 居民停车许可区扩展</div>
+        <ul class="actions">
+          <li data-lang="en"><span class="chip est">Establish</span> Residential Permit Parking Area AA (eligibility only, no signs)</li>
+          <li data-lang="zh"><span class="chip est">设立</span> 居民停车许可 AA 区（仅授予资格，不设标志）</li>
+        </ul>
+        <p class="desc" data-lang="en">Adds RPP Area AA so residents on this block can purchase permits to park within Area AA.</p>
+        <p class="desc" data-lang="zh">新增居民停车许可 AA 区，使该街区居民可购买许可证在 AA 区停车。</p>
+        <div class="meta">
+          <span class="tag board" data-lang="en">Requires SFMTA Board approval</span>
+          <span class="tag board" data-lang="zh">需经 SFMTA 董事会批准</span>
+          <span class="tag" data-lang="en">Supervisor District 9</span>
+          <span class="tag" data-lang="zh">第 9 监事区</span>
+          <span class="tag staff">Lulu Brien · <a href="mailto:lulu.brien@sfmta.com">lulu.brien@sfmta.com</a></span>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- ITEM 7 -->
+  <article class="item">
+    <div class="item-top">
+      <div class="num">7</div>
+      <div class="item-body">
+        <div class="loc" data-lang="en">Arkansas Street between 16th Street and 17th Street — Parking Meters</div>
+        <div class="loc" data-lang="zh">Arkansas 街，16 街与 17 街之间 — 停车收费表</div>
+
+        <div class="subblock">
+          <span class="sublabel">7(a)</span>
+          <ul class="actions">
+            <li data-lang="en"><span class="chip est">Establish</span> General Metered Parking, No Time Limit, 9 AM–6 PM, Mon–Sat</li>
+            <li data-lang="zh"><span class="chip est">设立</span> 普通收费停车，无时限，上午9点至下午6点，周一至周六</li>
+          </ul>
+          <div class="geo">
+            <span class="seg" data-lang="en">Arkansas Street, both sides, from 16th Street to 200 ft southerly</span>
+            <span class="seg" data-lang="zh">Arkansas 街两侧，16 街以南至 200 英尺处</span>
+          </div>
+        </div>
+
+        <div class="subblock">
+          <span class="sublabel">7(b)</span>
+          <ul class="actions">
+            <li data-lang="en"><span class="chip est">Establish</span> Residential Permit Parking Area X (eligibility only, no signs)</li>
+            <li data-lang="zh"><span class="chip est">设立</span> 居民停车许可 X 区（仅授予资格，不设标志）</li>
+          </ul>
+          <div class="geo">
+            <span class="seg" data-lang="en">Arkansas Street, both sides, between 16th Street and 17th Street</span>
+            <span class="seg" data-lang="zh">Arkansas 街两侧，16 街与 17 街之间</span>
+          </div>
+        </div>
+
+        <div class="subblock">
+          <span class="sublabel">7(c)</span>
+          <ul class="actions">
+            <li data-lang="en"><span class="chip est">Establish</span> Blue Zone</li>
+            <li data-lang="zh"><span class="chip est">设立</span> 蓝区（无障碍停车位）</li>
+          </ul>
+          <div class="geo">
+            <span class="seg" data-lang="en">Connecticut Street, west side, from 20 ft to 33 ft south of 16th Street; Arkansas Street, west side, from 20 ft to 33 ft south of 16th Street</span>
+            <span class="seg" data-lang="zh">Connecticut 街西侧，16 街以南 20 至 33 英尺处；Arkansas 街西侧，16 街以南 20 至 33 英尺处</span>
+          </div>
+        </div>
+
+        <p class="desc" data-lang="en">Requested by a business on the block. Converts 4-hour time-limited parking (Mon–Sat, 8 AM–6 PM) to no-time-limit metered parking (9 AM–6 PM) to increase turnover, and grants RPP eligibility to parcels facing restricted parking.</p>
+        <p class="desc" data-lang="zh">应该街区一家商户要求。将4小时限时停车（周一至周六，上午8点至下午6点）改为无时限收费停车（上午9点至下午6点）以提高周转率，并向面向受限停车的地块授予居民停车许可资格。</p>
+        <div class="meta">
+          <span class="tag board" data-lang="en">Requires SFMTA Board approval</span>
+          <span class="tag board" data-lang="zh">需经 SFMTA 董事会批准</span>
+          <span class="tag" data-lang="en">Supervisor District 10</span>
+          <span class="tag" data-lang="zh">第 10 监事区</span>
+          <span class="tag staff">Lulu Brien · <a href="mailto:lulu.brien@sfmta.com">lulu.brien@sfmta.com</a></span>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- ITEM 8 -->
+  <article class="item">
+    <div class="item-top">
+      <div class="num">8</div>
+      <div class="item-body">
+        <div class="loc" data-lang="en">Harrison Street, from 22nd Street to 24th Street — Angled Parking</div>
+        <div class="loc" data-lang="zh">Harrison 街，22 街至 24 街 — 斜角停车</div>
+        <ul class="actions">
+          <li data-lang="en"><span class="chip res">Rescind</span> 45-Degree Angled Parking</li>
+          <li data-lang="zh"><span class="chip res">撤销</span> 45度斜角停车</li>
+          <li data-lang="en"><span class="chip est">Establish</span> Perpendicular Parking</li>
+          <li data-lang="zh"><span class="chip est">设立</span> 垂直停车</li>
+        </ul>
+        <div class="geo">
+          <span class="seg" data-lang="en">Harrison Street, east side, from 62 ft to 270 ft south of 23rd Street (208-ft zone)</span>
+          <span class="seg" data-lang="zh">Harrison 街东侧，23 街以南 62 至 270 英尺处（208 英尺范围）</span>
+          <span class="seg" data-lang="en">Harrison Street, east side, from 23rd Street to 320 ft northerly (320-ft zone)</span>
+          <span class="seg" data-lang="zh">Harrison 街东侧，23 街以北至 320 英尺处（320 英尺范围）</span>
+        </div>
+        <p class="desc" data-lang="en">Amends legislation to authorize 90-degree parking, aligning the legal designation with long-standing community practice and restoring parking capacity.</p>
+        <p class="desc" data-lang="zh">修订法规以批准90度停车，使法律规定与社区长期实践一致，并恢复停车容量。</p>
+        <div class="meta">
+          <span class="tag board" data-lang="en">Requires SFMTA Board approval</span>
+          <span class="tag board" data-lang="zh">需经 SFMTA 董事会批准</span>
+          <span class="tag" data-lang="en">Supervisor District 9</span>
+          <span class="tag" data-lang="zh">第 9 监事区</span>
+          <span class="tag staff">Broderick Paulo · <a href="mailto:broderick.paulo@sfmta.com">broderick.paulo@sfmta.com</a></span>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- ITEM 9 -->
+  <article class="item">
+    <div class="item-top">
+      <div class="num">9</div>
+      <div class="item-body">
+        <div class="loc" data-lang="en">Fulton St at Cole St · Bosworth St at Brompton Ave · Silver Ave at Santa Fe Ave — Rectangular Rapid Flashing Beacons</div>
+        <div class="loc" data-lang="zh">Fulton 街与 Cole 街 · Bosworth 街与 Brompton 大道 · Silver 大道与 Santa Fe 大道 — 矩形快速闪烁信标</div>
+        <ul class="actions">
+          <li data-lang="en"><span class="chip est">Establish</span> Rectangular Rapid Flashing Beacon (RRFB)</li>
+          <li data-lang="zh"><span class="chip est">设立</span> 矩形快速闪烁信标（RRFB）</li>
+        </ul>
+        <div class="geo">
+          <span class="seg" data-lang="en">A. Fulton Street at Cole Street (Districts 1 &amp; 5)</span>
+          <span class="seg" data-lang="zh">A. Fulton 街与 Cole 街（第 1 及第 5 监事区）</span>
+          <span class="seg" data-lang="en">B. Bosworth Street at Brompton Avenue (District 8)</span>
+          <span class="seg" data-lang="zh">B. Bosworth 街与 Brompton 大道（第 8 监事区）</span>
+          <span class="seg" data-lang="en">C. Silver Avenue at Santa Fe Avenue (District 10)</span>
+          <span class="seg" data-lang="zh">C. Silver 大道与 Santa Fe 大道（第 10 监事区）</span>
+        </div>
+        <p class="desc" data-lang="en">Adds Rectangular Rapid Flashing Beacons at three locations as additional warning devices for pedestrians in the crosswalks.</p>
+        <p class="desc" data-lang="zh">在三处地点增设矩形快速闪烁信标，作为人行横道行人的额外警示装置。</p>
+        <div class="meta">
+          <span class="tag cte" data-lang="en">Approvable by City Traffic Engineer</span>
+          <span class="tag cte" data-lang="zh">可由市交通工程师批准</span>
+          <span class="tag staff">Jeffrey Tom · <a href="mailto:jeffrey.tom@sfmta.com">jeffrey.tom@sfmta.com</a></span>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- ITEM 10 -->
+  <article class="item">
+    <div class="item-top">
+      <div class="num">10</div>
+      <div class="item-body">
+        <div class="loc" data-lang="en">Post Street, from Taylor Street to Grant Avenue — Tow-Away, No Stopping</div>
+        <div class="loc" data-lang="zh">Post 街，Taylor 街至 Grant 大道 — 拖移禁停区</div>
+        <ul class="actions">
+          <li data-lang="en"><span class="chip res">Rescind</span> Tow-Away, No Stopping, 7 AM–9 AM</li>
+          <li data-lang="zh"><span class="chip res">撤销</span> 拖移禁停区，上午7点至9点</li>
+        </ul>
+        <div class="geo">
+          <span class="seg" data-lang="en">A. Post Street, north side, from Taylor Street to Mason Street</span>
+          <span class="seg" data-lang="zh">A. Post 街北侧，Taylor 街至 Mason 街</span>
+          <span class="seg" data-lang="en">B. Post Street, north side, from Mason Street to 55 ft west of Powell Street</span>
+          <span class="seg" data-lang="zh">B. Post 街北侧，Mason 街至 Powell 街以西 55 英尺处</span>
+          <span class="seg" data-lang="en">C. Post Street, north side, from Powell Street to Stockton Street</span>
+          <span class="seg" data-lang="zh">C. Post 街北侧，Powell 街至 Stockton 街</span>
+          <span class="seg" data-lang="en">D. Post Street, north side, from Stockton Street to 80 ft west of Grant Avenue</span>
+          <span class="seg" data-lang="zh">D. Post 街北侧，Stockton 街至 Grant 大道以西 80 英尺处</span>
+        </div>
+        <p class="desc" data-lang="en">Rescinds AM peak Tow-Away regulations to complement color curb changes.</p>
+        <p class="desc" data-lang="zh">撤销上午高峰时段拖移禁停规定，以配合彩色路缘的变更。</p>
+        <div class="meta">
+          <span class="tag board" data-lang="en">Requires SFMTA Board approval</span>
+          <span class="tag board" data-lang="zh">需经 SFMTA 董事会批准</span>
+          <span class="tag" data-lang="en">Supervisor District 3</span>
+          <span class="tag" data-lang="zh">第 3 监事区</span>
+          <span class="tag staff">Mari Hunter · <a href="mailto:mari.hunter@sfmta.com">mari.hunter@sfmta.com</a></span>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- ITEM 11 -->
+  <article class="item">
+    <div class="item-top">
+      <div class="num">11</div>
+      <div class="item-body">
+        <div class="loc" data-lang="en">Stockton Street between Sacramento Street and Washington Street — Metered Commercial Loading</div>
+        <div class="loc" data-lang="zh">Stockton 街，Sacramento 街与 Washington 街之间 — 收费商业装卸区</div>
+        <ul class="actions">
+          <li data-lang="en"><span class="chip est">Establish</span> Yellow Metered Loading Zones, 7 AM–12 PM, Mon–Sat</li>
+          <li data-lang="zh"><span class="chip est">设立</span> 黄色收费装卸区，上午7点至中午12点，周一至周六</li>
+        </ul>
+        <div class="geo">
+          <span class="seg" data-lang="en">A. Stockton St, east side, 51–95 ft north of Sacramento St (meters #664-08080, #664-08100)</span>
+          <span class="seg" data-lang="zh">A. Stockton 街东侧，Sacramento 街以北 51–95 英尺处（收费表 #664-08080、#664-08100）</span>
+          <span class="seg" data-lang="en">B. Stockton St, east side, 225–243 ft north of Sacramento St (meter #664-08260)</span>
+          <span class="seg" data-lang="zh">B. Stockton 街东侧，Sacramento 街以北 225–243 英尺处（收费表 #664-08260）</span>
+          <span class="seg" data-lang="en">C. Stockton St, west side, 10–50 ft north of Sacramento St (meters #664-08003, #664-08050)</span>
+          <span class="seg" data-lang="zh">C. Stockton 街西侧，Sacramento 街以北 10–50 英尺处（收费表 #664-08003、#664-08050）</span>
+          <span class="seg" data-lang="en">D. Stockton St, east side, 84–126 ft north of Clay St (meters #664-09120, #664-09140)</span>
+          <span class="seg" data-lang="zh">D. Stockton 街东侧，Clay 街以北 84–126 英尺处（收费表 #664-09120、#664-09140）</span>
+        </div>
+        <p class="desc" data-lang="en">Changes metered commercial loading schedules on Stockton Street between Sacramento and Clay Streets to provide more hours of general metered parking.</p>
+        <p class="desc" data-lang="zh">变更 Stockton 街（Sacramento 街与 Clay 街之间）收费商业装卸区的运营时间，以提供更多普通收费停车时段。</p>
+        <div class="meta">
+          <span class="tag cte" data-lang="en">Approvable by City Traffic Engineer</span>
+          <span class="tag cte" data-lang="zh">可由市交通工程师批准</span>
+          <span class="tag" data-lang="en">Supervisor District 3</span>
+          <span class="tag" data-lang="zh">第 3 监事区</span>
+          <span class="tag staff">Andy Thornley · <a href="mailto:andy.thornley@sfmta.com">andy.thornley@sfmta.com</a></span>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- ITEM 12 -->
+  <article class="item">
+    <div class="item-top">
+      <div class="num">12</div>
+      <div class="item-body">
+        <div class="loc" data-lang="en">Vallejo Street, from Powell Street to Mason Street — RPP & SFPD Parking</div>
+        <div class="loc" data-lang="zh">Vallejo 街，Powell 街至 Mason 街 — 居民许可停车与旧金山警局停车</div>
+        <ul class="actions">
+          <li data-lang="en"><span class="chip res">Rescind</span> 2-Hour Parking, 8 AM–9 PM, Mon–Sat, Except Area A or C Permits</li>
+          <li data-lang="zh"><span class="chip res">撤销</span> 2小时停车，上午8点至晚9点，周一至周六，A 区或 C 区许可证除外</li>
+          <li data-lang="en"><span class="chip est">Establish</span> Tow-Away, No Stopping, At All Times, Except Marked SFPD Vehicles</li>
+          <li data-lang="zh"><span class="chip est">设立</span> 全天候拖移禁停区，标识警车除外</li>
+        </ul>
+        <div class="geo">
+          <span class="seg" data-lang="en">Vallejo Street, north side, from Powell Street to 60 ft westerly (60-ft zone)</span>
+          <span class="seg" data-lang="zh">Vallejo 街北侧，Powell 街以西至 60 英尺处（60 英尺范围）</span>
+          <span class="seg" data-lang="en">Vallejo Street, south side, from 20 ft to 60 ft west of Powell Street (40-ft zone)</span>
+          <span class="seg" data-lang="zh">Vallejo 街南侧，Powell 街以西 20 至 60 英尺处（40 英尺范围）</span>
+        </div>
+        <p class="desc" data-lang="en">Converts 2-hour RPP Area A and C parking to SFPD-restricted parking near the Central Police Station, allowing only official SFPD vehicles to park.</p>
+        <p class="desc" data-lang="zh">将居民许可 A 区和 C 区的2小时停车改为中央警察局附近的警局专用停车，仅允许旧金山警局官方车辆停放。</p>
+        <div class="meta">
+          <span class="tag board" data-lang="en">Requires SFMTA Board approval</span>
+          <span class="tag board" data-lang="zh">需经 SFMTA 董事会批准</span>
+          <span class="tag" data-lang="en">Supervisor District 3</span>
+          <span class="tag" data-lang="zh">第 3 监事区</span>
+          <span class="tag staff">Broderick Paulo · <a href="mailto:broderick.paulo@sfmta.com">broderick.paulo@sfmta.com</a></span>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- ITEM 13 -->
+  <article class="item">
+    <div class="item-top">
+      <div class="num">13</div>
+      <div class="item-body">
+        <div class="loc" data-lang="en">Vallejo Street, from Powell Street to Stockton Street — Metered Parking & SFPD Parking</div>
+        <div class="loc" data-lang="zh">Vallejo 街，Powell 街至 Stockton 街 — 收费停车与旧金山警局停车</div>
+
+        <div class="subblock">
+          <span class="sublabel">13(a)</span>
+          <ul class="actions">
+            <li data-lang="en"><span class="chip res">Rescind</span> Yellow Metered Zone, Commercial Loading, 30-Min Limit, 8 AM–6 PM, Mon–Sat</li>
+            <li data-lang="zh"><span class="chip res">撤销</span> 黄色收费区，商业装卸，30分钟时限，上午8点至下午6点，周一至周六</li>
+          </ul>
+          <div class="geo">
+            <span class="seg" data-lang="en">Vallejo Street, south side, 70–94 ft west of Stockton Street (meter stall #709, 24-ft zone)</span>
+            <span class="seg" data-lang="zh">Vallejo 街南侧，Stockton 街以西 70–94 英尺处（车位 #709，24 英尺范围）</span>
+          </div>
+        </div>
+
+        <div class="subblock">
+          <span class="sublabel">13(b)</span>
+          <ul class="actions">
+            <li data-lang="en"><span class="chip est">Establish</span> Yellow Metered Zone, Commercial Loading, 30-Min Limit, 8 AM–6 PM, Mon–Sat</li>
+            <li data-lang="zh"><span class="chip est">设立</span> 黄色收费区，商业装卸，30分钟时限，上午8点至下午6点，周一至周六</li>
+          </ul>
+          <div class="geo">
+            <span class="seg" data-lang="en">Vallejo St, north side, 5–45 ft west of Stockton St (stalls #704, #702, 40-ft zone)</span>
+            <span class="seg" data-lang="zh">Vallejo 街北侧，Stockton 街以西 5–45 英尺处（车位 #704、#702，40 英尺范围）</span>
+            <span class="seg" data-lang="en">Vallejo St, south side, 24–68 ft west of Stockton St (stalls #703, #705, 44-ft zone)</span>
+            <span class="seg" data-lang="zh">Vallejo 街南侧，Stockton 街以西 24–68 英尺处（车位 #703、#705，44 英尺范围）</span>
+          </div>
+        </div>
+
+        <div class="subblock">
+          <span class="sublabel">13(c)</span>
+          <ul class="actions">
+            <li data-lang="en"><span class="chip res">Rescind</span> General Metered Parking, 9 AM–6 PM, Mon–Sat</li>
+            <li data-lang="zh"><span class="chip res">撤销</span> 普通收费停车，上午9点至下午6点，周一至周六</li>
+            <li data-lang="en"><span class="chip est">Establish</span> Tow-Away, No Stopping Any Time, Except Marked SFPD Vehicles</li>
+            <li data-lang="zh"><span class="chip est">设立</span> 全天候拖移禁停区，标识警车除外</li>
+          </ul>
+          <div class="geo">
+            <span class="seg" data-lang="en">Vallejo St, north side, 45–89 ft west of Stockton St (stalls #708, #706, 44-ft zone)</span>
+            <span class="seg" data-lang="zh">Vallejo 街北侧，Stockton 街以西 45–89 英尺处（车位 #708、#706，44 英尺范围）</span>
+            <span class="seg" data-lang="en">Vallejo St, south side, 92–135 ft west of Stockton St (stalls #715, #713, 43-ft zone)</span>
+            <span class="seg" data-lang="zh">Vallejo 街南侧，Stockton 街以西 92–135 英尺处（车位 #715、#713，43 英尺范围）</span>
+          </div>
+        </div>
+
+        <p class="desc" data-lang="en">Converts metered commercial loading and general metered parking to SFPD-restricted parking for the Central Police Station, allowing only official SFPD vehicles to park.</p>
+        <p class="desc" data-lang="zh">将收费商业装卸区和普通收费停车改为中央警察局的警局专用停车，仅允许旧金山警局官方车辆停放。</p>
+        <div class="meta">
+          <span class="tag board" data-lang="en">Requires SFMTA Board approval</span>
+          <span class="tag board" data-lang="zh">需经 SFMTA 董事会批准</span>
+          <span class="tag" data-lang="en">Supervisor District 3</span>
+          <span class="tag" data-lang="zh">第 3 监事区</span>
+          <span class="tag staff">Broderick Paulo · <a href="mailto:broderick.paulo@sfmta.com">broderick.paulo@sfmta.com</a></span>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- ITEM 14 -->
+  <article class="item">
+    <div class="item-top">
+      <div class="num">14</div>
+      <div class="item-body">
+        <div class="loc" data-lang="en">Alameda Street and Potrero Avenue — Parking Meters</div>
+        <div class="loc" data-lang="zh">Alameda 街与 Potrero 大道 — 停车收费表</div>
+
+        <div class="subblock">
+          <span class="sublabel">14(a)</span>
+          <ul class="actions">
+            <li data-lang="en"><span class="chip est">Establish</span> Red Zone</li>
+            <li data-lang="zh"><span class="chip est">设立</span> 红区（禁停）</li>
+          </ul>
+          <div class="geo">
+            <span class="seg" data-lang="en">A. Potrero Ave, east side, from Alameda St to 20 ft southerly · B. Alameda St, south side, from Potrero Ave to 23 ft westerly · C. Alameda St, north side, from Potrero Ave to 20 ft easterly</span>
+            <span class="seg" data-lang="zh">A. Potrero 大道东侧，Alameda 街以南至 20 英尺处 · B. Alameda 街南侧，Potrero 大道以西至 23 英尺处 · C. Alameda 街北侧，Potrero 大道以东至 20 英尺处</span>
+          </div>
+        </div>
+
+        <div class="subblock">
+          <span class="sublabel">14(b)</span>
+          <ul class="actions">
+            <li data-lang="en"><span class="chip res">Rescind</span> Blue Zone, Accessible Parking, At All Times</li>
+            <li data-lang="zh"><span class="chip res">撤销</span> 蓝区，全天无障碍停车位</li>
+          </ul>
+          <div class="geo">
+            <span class="seg" data-lang="en">Alameda Street, south side, 18–38 ft west of Potrero Avenue (20-ft zone)</span>
+            <span class="seg" data-lang="zh">Alameda 街南侧，Potrero 大道以西 18–38 英尺处（20 英尺范围）</span>
+          </div>
+        </div>
+
+        <div class="subblock">
+          <span class="sublabel">14(c)</span>
+          <ul class="actions">
+            <li data-lang="en"><span class="chip est">Establish</span> Blue Zone, Accessible Parking, At All Times</li>
+            <li data-lang="zh"><span class="chip est">设立</span> 蓝区，全天无障碍停车位</li>
+          </ul>
+          <div class="geo">
+            <span class="seg" data-lang="en">Alameda St, south side, 23–47 ft west of Potrero Ave (24-ft zone); Potrero Ave, east side, 20–44 ft south of Alameda St (24-ft zone)</span>
+            <span class="seg" data-lang="zh">Alameda 街南侧，Potrero 大道以西 23–47 英尺处（24 英尺范围）；Potrero 大道东侧，Alameda 街以南 20–44 英尺处（24 英尺范围）</span>
+          </div>
+        </div>
+
+        <div class="subblock">
+          <span class="sublabel">14(d)</span>
+          <ul class="actions">
+            <li data-lang="en"><span class="chip est">Establish</span> General Metered Parking, No Time Limit, 9 AM–6 PM, Mon–Sat</li>
+            <li data-lang="zh"><span class="chip est">设立</span> 普通收费停车，无时限，上午9点至下午6点，周一至周六</li>
+          </ul>
+          <div class="geo">
+            <span class="seg" data-lang="en">Alameda St, south side, from Potrero Ave to Hampshire St; Potrero Ave, east and west sides, from Alameda St to 15th St</span>
+            <span class="seg" data-lang="zh">Alameda 街南侧，Potrero 大道至 Hampshire 街；Potrero 大道东西两侧，Alameda 街至 15 街</span>
+          </div>
+        </div>
+
+        <p class="desc" data-lang="en">Establishes metered parking and parking restrictions to support accessible parking policy and Assembly Bill 413 state law.</p>
+        <p class="desc" data-lang="zh">设立收费停车及停车限制，以支持无障碍停车政策及加州第413号议会法案。</p>
+        <div class="meta">
+          <span class="tag board" data-lang="en">Requires SFMTA Board approval</span>
+          <span class="tag board" data-lang="zh">需经 SFMTA 董事会批准</span>
+          <span class="tag" data-lang="en">Supervisor District 9</span>
+          <span class="tag" data-lang="zh">第 9 监事区</span>
+          <span class="tag staff">Mari Hunter · <a href="mailto:mari.hunter@sfmta.com">mari.hunter@sfmta.com</a></span>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- CEQA note before item 15 -->
+  <div class="ceqa">
+    <span data-lang="en"><strong>Items 1–14:</strong> Categorically exempt from Environmental Review — CEQA Guidelines Section 15301 Class 1(c): operation, repair, maintenance, or minor alteration of existing streets, sidewalks, gutters, bicycle and pedestrian trails, and similar facilities. (Jenny Delumo, SFMTA · June 12, 2026)</span>
+    <span data-lang="zh"><strong>第 1–14 项：</strong>依《加州环境质量法》（CEQA）准则第 15301 条第 1(c) 类，属于环境审查豁免类别——现有街道、人行道、排水沟、自行车及行人道等设施的运营、维修、保养或小幅改建。（Jenny Delumo，SFMTA · 2026年6月12日）</span>
+    <br><br>
+    <span data-lang="en">The following item was environmentally cleared by the Planning Department on April 23, 2026 — Powell Street Improvement Project (Case 2007.1238ENV).</span>
+    <span data-lang="zh">以下事项已于2026年4月23日经规划部门环境审查通过——Powell 街改善项目（案件编号 2007.1238ENV）。</span>
+  </div>
+
+  <!-- ITEM 15 -->
+  <article class="item">
+    <div class="item-top">
+      <div class="num">15</div>
+      <div class="item-body">
+        <div class="loc" data-lang="en">Powell Street between Geary and Ellis Streets — Powell Street Improvement Project</div>
+        <div class="loc" data-lang="zh">Powell 街，Geary 街与 Ellis 街之间 — Powell 街改善项目</div>
+
+        <div class="subblock">
+          <span class="sublabel">15(a)</span>
+          <ul class="actions">
+            <li data-lang="en"><span class="chip res">Rescind</span> Tow-Away No Stopping Any Time, Except Commercial Loading, 30-Min Limit</li>
+            <li data-lang="zh"><span class="chip res">撤销</span> 全天候拖移禁停区，商业装卸（30分钟时限）除外</li>
+            <li data-lang="en"><span class="chip est">Establish</span> Tow-Away No Stopping Anytime</li>
+            <li data-lang="zh"><span class="chip est">设立</span> 全天候拖移禁停区</li>
+          </ul>
+          <div class="geo">
+            <span class="seg" data-lang="en">A. Powell St, west side, 84–174 ft north of Ellis St · B. Powell St, east side, 92–152 ft north of Ellis St · C. Powell St, east side, 97–177 ft north of O'Farrell St</span>
+            <span class="seg" data-lang="zh">A. Powell 街西侧，Ellis 街以北 84–174 英尺处 · B. Powell 街东侧，Ellis 街以北 92–152 英尺处 · C. Powell 街东侧，O'Farrell 街以北 97–177 英尺处</span>
+          </div>
+        </div>
+
+        <div class="subblock">
+          <span class="sublabel">15(b)</span>
+          <ul class="actions">
+            <li data-lang="en"><span class="chip res">Rescind</span> Passenger Loading Zone At All Times</li>
+            <li data-lang="zh"><span class="chip res">撤销</span> 全天乘客上下客区</li>
+            <li data-lang="en"><span class="chip est">Establish</span> Tow-Away No Stopping Anytime</li>
+            <li data-lang="zh"><span class="chip est">设立</span> 全天候拖移禁停区</li>
+          </ul>
+          <div class="geo">
+            <span class="seg" data-lang="en">Powell Street, west side, 89–149 ft north of O'Farrell Street</span>
+            <span class="seg" data-lang="zh">Powell 街西侧，O'Farrell 街以北 89–149 英尺处</span>
+          </div>
+        </div>
+
+        <div class="subblock">
+          <span class="sublabel">15(c)</span>
+          <ul class="actions">
+            <li data-lang="en"><span class="chip res">Rescind</span> Tow-Away No Stopping Anytime</li>
+            <li data-lang="zh"><span class="chip res">撤销</span> 全天候拖移禁停区</li>
+            <li data-lang="en"><span class="chip est">Establish</span> Tow-Away No Stopping Anytime Except Commercial Loading, 30-Min Limit</li>
+            <li data-lang="zh"><span class="chip est">设立</span> 全天候拖移禁停区，商业装卸（30分钟时限）除外</li>
+          </ul>
+          <div class="geo">
+            <span class="seg" data-lang="en">A. Powell St, west side, 22–82 ft north of Ellis St · B. Powell St, east side, 20–80 ft south of O'Farrell St · C. Powell St, west side, 13–68 ft south of Geary St · D. Powell St, east side, 21–78 ft south of Geary St</span>
+            <span class="seg" data-lang="zh">A. Powell 街西侧，Ellis 街以北 22–82 英尺处 · B. Powell 街东侧，O'Farrell 街以南 20–80 英尺处 · C. Powell 街西侧，Geary 街以南 13–68 英尺处 · D. Powell 街东侧，Geary 街以南 21–78 英尺处</span>
+          </div>
+        </div>
+
+        <div class="subblock">
+          <span class="sublabel">15(d)</span>
+          <ul class="actions">
+            <li data-lang="en"><span class="chip est">Establish</span> Tow-Away No Stopping Anytime</li>
+            <li data-lang="zh"><span class="chip est">设立</span> 全天候拖移禁停区</li>
+          </ul>
+          <div class="geo">
+            <span class="seg" data-lang="en">Powell Street, west side, from Geary Street to 13 ft southerly</span>
+            <span class="seg" data-lang="zh">Powell 街西侧，Geary 街以南至 13 英尺处</span>
+          </div>
+        </div>
+
+        <div class="subblock">
+          <span class="sublabel">15(e)</span>
+          <ul class="actions">
+            <li data-lang="en"><span class="chip res">Rescind</span> Cable Car Stop</li>
+            <li data-lang="zh"><span class="chip res">撤销</span> 缆车站</li>
+          </ul>
+          <div class="geo">
+            <span class="seg" data-lang="en">A. Powell St, east side, south of O'Farrell St · B. Powell St, east side, south of Geary St · C. Powell St, west side, north of O'Farrell St · D. Powell St, west side, north of Geary St</span>
+            <span class="seg" data-lang="zh">A. Powell 街东侧，O'Farrell 街以南 · B. Powell 街东侧，Geary 街以南 · C. Powell 街西侧，O'Farrell 街以北 · D. Powell 街西侧，Geary 街以北</span>
+          </div>
+        </div>
+
+        <div class="subblock">
+          <span class="sublabel">15(f)</span>
+          <ul class="actions">
+            <li data-lang="en"><span class="chip est">Establish</span> Cable Car Stop</li>
+            <li data-lang="zh"><span class="chip est">设立</span> 缆车站</li>
+          </ul>
+          <div class="geo">
+            <span class="seg" data-lang="en">Powell Street, east side, midblock between O'Farrell and Geary Streets; Powell Street, west side, midblock between O'Farrell and Geary Streets</span>
+            <span class="seg" data-lang="zh">Powell 街东侧，O'Farrell 街与 Geary 街之间的街区中段；Powell 街西侧，O'Farrell 街与 Geary 街之间的街区中段</span>
+          </div>
+        </div>
+
+        <p class="desc" data-lang="en">Establishes parking restrictions and consolidates cable car stops as part of the Powell Street Improvement Project.</p>
+        <p class="desc" data-lang="zh">作为 Powell 街改善项目的一部分，设立停车限制并整合缆车站。</p>
+        <div class="meta">
+          <span class="tag board" data-lang="en">Requires SFMTA Board approval</span>
+          <span class="tag board" data-lang="zh">需经 SFMTA 董事会批准</span>
+          <span class="tag" data-lang="en">Supervisor District 3</span>
+          <span class="tag" data-lang="zh">第 3 监事区</span>
+          <span class="tag staff">Sam Lam · <a href="mailto:samuel.lam@sfmta.com">samuel.lam@sfmta.com</a></span>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- SIGN-OFF -->
+  <div class="signoff">
+    <div data-lang="en" style="font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:700;">Approved for Public Hearing</div>
+    <div data-lang="zh" style="font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:700;">批准举行公开听证会</div>
+    <div class="sig">Ricardo Olea</div>
+    <div class="name">Ricardo Olea</div>
+    <div class="role" data-lang="en">City Traffic Engineer · Streets Division</div>
+    <div class="role" data-lang="zh">市交通工程师 · 街道部门</div>
+    <div class="footmeta">
+      <span data-lang="en">cc: Shawn McCormick (Parking &amp; Enforcement), Matt Lee (Service Planning) &nbsp;·&nbsp; Issue Date: 6/12/26 &nbsp;·&nbsp; RO:ET:ND</span>
+      <span data-lang="zh">抄送：Shawn McCormick（停车与执法）、Matt Lee（服务规划） &nbsp;·&nbsp; 发布日期：2026年6月12日 &nbsp;·&nbsp; RO:ET:ND</span>
+    </div>
+  </div>
+
+  <div class="ceqa" style="margin-top:18px;">
+    <span data-lang="en"><strong>CEQA Appeal Rights:</strong> For approval actions, the Planning Department has issued a CEQA exemption determination or negative declaration, which may be viewed at sf-planning.org. After approval by the City Traffic Engineer, the CEQA determination is subject to appeal, typically within 30 calendar days of the approval action (S.F. Administrative Code Section 31.16). To file a CEQA appeal, contact the Clerk of the Board of Supervisors, City Hall, 1 Dr. Carlton B. Goodlett Place, Room 244, San Francisco, CA 94102, or call (415) 554-5184. City Traffic Engineer decisions are posted at SFMTA.com/EngineeringResults by 5 p.m. on the Friday following the hearing. Certain decisions can be reviewed by the Board of Supervisors under Ordinance 127-18 — see SFMTA.com/BOSAppeal.</span>
+    <span data-lang="zh"><strong>CEQA 上诉权利：</strong>对于批准行动，规划部门已发布 CEQA 豁免裁定或否定声明，可在 sf-planning.org 查阅。经市交通工程师批准后，CEQA 裁定可被上诉，通常须在批准行动后30个日历日内提出（旧金山行政法规第 31.16 条）。如需提出 CEQA 上诉，请联系监事会书记官，地址：City Hall, 1 Dr. Carlton B. Goodlett Place, Room 244, San Francisco, CA 94102，或致电 (415) 554-5184。市交通工程师的决定将于听证会后的星期五下午5点前在 SFMTA.com/EngineeringResults 公布。某些决定可依第 127-18 号条例由监事会复核——详见 SFMTA.com/BOSAppeal。</span>
+  </div>
+
+</div>
+</main>
+
+<footer class="pagefoot">
+  <span data-lang="en">San Francisco Municipal Transportation Agency · Order #7016 · This is an HTML rendering of the official notice. Chinese translation is unofficial.</span>
+  <span data-lang="zh">旧金山市政交通局 · 编号 #7016 · 本页为官方通知的 HTML 版本。中文翻译为非官方版本。</span>
+</footer>
+
+<script>
+  function setLang(lang) {
+    document.body.classList.remove('lang-en', 'lang-zh');
+    document.body.classList.add('lang-' + lang);
+    document.documentElement.lang = (lang === 'zh') ? 'zh-Hans' : 'en';
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    document.getElementById('btn-zh').classList.toggle('active', lang === 'zh');
+  }
+</script>
+
+</body>
+</html>
