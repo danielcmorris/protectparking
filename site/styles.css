@@ -406,6 +406,20 @@ textarea:focus-visible {
 .share__primary { padding: 13px 16px; font-size: 14px; justify-content: flex-start; }
 .share__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
+/* important links */
+.card--links { background: #fff; border-top: 6px solid var(--red); }
+.links-list { margin-top: 16px; list-style: none; }
+.links-list li + li { border-top: 1px solid var(--hairline); }
+.links-list a {
+  display: flex; align-items: center; gap: 11px; padding: 12px 2px;
+  font-family: var(--f-head); font-weight: 600; font-size: 15px; letter-spacing: .3px;
+  color: var(--navy); text-decoration: none;
+}
+.links-list a::before { content: "\25C6"; color: var(--red); font-size: 10px; flex: 0 0 auto; }
+.links-list .ext { margin-left: auto; flex: 0 0 auto; color: #9aa0a8; }
+.links-list a:hover { color: var(--red); }
+.links-list a:hover .ext { color: var(--red); }
+
 /* ---------- FOOTER ---------- */
 .footer { background: var(--red); }
 .footer__inner {

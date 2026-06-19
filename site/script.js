@@ -11,7 +11,7 @@
     showPledgeCount: true,
     showShareBar: true,
     // TODO(production): seed from a real backend count, or set to null to hide.
-    pledgeCountSeed: 1284,
+    pledgeCountSeed: 28,
     // Base URL of the comment API. Empty '' = same origin (the API serves this
     // site), so the form POSTs to /api/comments. Set to an absolute URL only if
     // the API is hosted on a different origin.
@@ -137,7 +137,7 @@
         'UID:' + Date.now() + '@vallejo-street',
         'DTSTAMP:' + dt, 'DTSTART:' + dt, 'DTEND:' + de,
         'SUMMARY:Public Meeting — Stop the Vallejo Street Takeover',
-        'DESCRIPTION:Call-in #: 415-523-2709. Contact danny.sauter@sfgov.org',
+        'DESCRIPTION:Call-in #: 415.523.2709. and enter conference ID 836 632 456#',
         'LOCATION:Call-in #: 415-523-2709',
         'END:VEVENT', 'END:VCALENDAR'
       ].join('\r\n');
