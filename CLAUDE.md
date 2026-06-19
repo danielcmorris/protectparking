@@ -9,7 +9,7 @@ this is a quick one-page website designed to get some attention and collect some
 The source control is at: https://github.com/danielcmorris/protectparking.git
 
 ## HOSTING
-this will be hosted on Cloudfront and we will use the postgres database there.
+this will be hosted on GCP Cloud Run and we will use the postgres database there.
 
 ## API SERVER
 we will need some basic API services regarding a sign up page, some email and maybe some tracking.  We currently have access to postgress databases and cloud front with my google authentiation.  I prefer c# dotnetcore 
