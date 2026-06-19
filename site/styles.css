@@ -133,6 +133,22 @@ textarea:focus-visible {
 }
 .nav__link:hover { color: #fff; }
 
+/* language switch (EN / 中文) */
+.lang-switch {
+  display: inline-flex; gap: 2px; padding: 2px;
+  border: 1px solid rgba(255, 255, 255, .25); border-radius: 999px;
+}
+.lang-switch__btn {
+  font-family: var(--f-head); font-weight: 600; font-size: 12px; letter-spacing: .5px;
+  color: #cdd2d8; background: transparent; border: 0; cursor: pointer;
+  padding: 5px 11px; border-radius: 999px; line-height: 1;
+}
+.lang-switch__btn:hover { color: #fff; }
+.lang-switch__btn[aria-pressed="true"] { background: var(--red); color: #fff; }
+.lang-switch--mobile { align-self: flex-start; margin-top: 12px; }
+/* FOUC guard: hide the page until a non-default language is applied. */
+html.i18n-busy body { visibility: hidden; }
+
 .nav__hamburger {
   display: none; flex-direction: column; gap: 5px; justify-content: center; align-items: center;
   width: 44px; height: 44px; background: transparent; border: none;
@@ -366,7 +382,9 @@ textarea:focus-visible {
 }
 .field:focus { border-color: var(--red); }
 .field--textarea { line-height: 1.5; resize: vertical; }
-.field__hint { display: block; margin-top: 5px; font-size: 12px; color: #8a8f97; font-style: italic; }
+.field__hint { display: block; margin-top: 4px; font-size: 12px; color: #176e30; font-style: italic; }
+/* Hints that are direct flex children sit below the form's 12px gap; pull them up close to the input above. */
+.pledge-form > .field__hint { margin-top: -8px; }
 .checkbox {
   display: flex; gap: 10px; align-items: flex-start; padding: 4px 2px;
   font-size: 14.5px; line-height: 1.4; color: #3a3f47; cursor: pointer;

@@ -18,8 +18,21 @@
     apiBase: '',
   };
 
-  var SHARE_TEXT = "Stop the Vallejo Street Takeover — SFPD wants to convert the lower half of Vallejo Street into a police-only tow-away zone. Speak up before June 26.";
-  var SHARE_TITLE = "Stop the Vallejo Street Takeover";
+  // English fallbacks; the active strings come from i18n (see i18n.js / i18n/*.json).
+  var FALLBACK = {
+    'share.text': "Stop the Vallejo Street Takeover — SFPD wants to convert the lower half of Vallejo Street into a police-only tow-away zone. Speak up before June 26.",
+    'share.title': "Stop the Vallejo Street Takeover",
+    'share.copyLink': "Copy link",
+    'share.copied': "Link copied!",
+    'ics.summary': "Public Meeting — Stop the Vallejo Street Takeover",
+    'ics.description': "Call-in #: 415.523.2709. and enter conference ID 836 632 456#",
+    'ics.location': "Call-in #: 415-523-2709",
+  };
+  // Resolve a string by key at call time, so the current language is honored.
+  function L(key) {
+    var v = (window.i18n && window.i18n.t) ? window.i18n.t(key) : '';
+    return v || FALLBACK[key] || '';
+  }
 
   var $ = function (sel, root) { return (root || document).querySelector(sel); };
 
@@ -136,9 +149,9 @@
         'BEGIN:VEVENT',
         'UID:' + Date.now() + '@vallejo-street',
         'DTSTAMP:' + dt, 'DTSTART:' + dt, 'DTEND:' + de,
-        'SUMMARY:Public Meeting — Stop the Vallejo Street Takeover',
-        'DESCRIPTION:Call-in #: 415.523.2709. and enter conference ID 836 632 456#',
-        'LOCATION:Call-in #: 415-523-2709',
+        'SUMMARY:' + L('ics.summary'),
+        'DESCRIPTION:' + L('ics.description'),
+        'LOCATION:' + L('ics.location'),
         'END:VEVENT', 'END:VCALENDAR'
       ].join('\r\n');
       var blob = new Blob([ics], { type: 'text/calendar' });
@@ -155,27 +168,27 @@
 
   bind('#share-native', function () {
     if (navigator.share) {
-      navigator.share({ title: SHARE_TITLE, text: SHARE_TEXT, url: currentUrl() }).catch(function () {});
+      navigator.share({ title: L('share.title'), text: L('share.text'), url: currentUrl() }).catch(function () {});
     } else {
       copyLink();
     }
   });
   bind('#share-x', function () {
-    window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(SHARE_TEXT) + '&url=' + encodeURIComponent(currentUrl()), '_blank', 'noopener');
+    window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(L('share.text')) + '&url=' + encodeURIComponent(currentUrl()), '_blank', 'noopener');
   });
   bind('#share-fb', function () {
     window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(currentUrl()), '_blank', 'noopener');
   });
   bind('#share-email', function () {
-    window.location.href = 'mailto:?subject=' + encodeURIComponent(SHARE_TITLE) + '&body=' + encodeURIComponent(SHARE_TEXT + ' ' + currentUrl());
+    window.location.href = 'mailto:?subject=' + encodeURIComponent(L('share.title')) + '&body=' + encodeURIComponent(L('share.text') + ' ' + currentUrl());
   });
 
   var copyBtn = $('#copy-link');
   function copyLink() {
     var done = function () {
       if (!copyBtn) return;
-      copyBtn.textContent = 'Link copied!';
-      setTimeout(function () { copyBtn.textContent = 'Copy link'; }, 1800);
+      copyBtn.textContent = L('share.copied');
+      setTimeout(function () { copyBtn.textContent = L('share.copyLink'); }, 1800);
     };
     try {
       navigator.clipboard.writeText(currentUrl()).then(done).catch(done);
