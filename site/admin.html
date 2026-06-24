@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Comments — Admin</title>
+  <style>
+    :root {
+      --red: #E3201A; --navy: #0E2746; --navy-border: #1d3c66;
+      --yellow: #F7B500; --paper: #f1ede5; --ink: #16181d;
+      --ink-muted: #4c5159; --hairline: #ddd6c8;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; font-family: 'Barlow', system-ui, sans-serif;
+      background: #0c0c0c; color: var(--ink);
+    }
+    header {
+      background: var(--navy); color: #fff; padding: 18px 22px;
+      border-bottom: 4px solid var(--red);
+      display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap;
+    }
+    header h1 {
+      margin: 0; font-size: 20px; letter-spacing: .5px; text-transform: uppercase;
+    }
+    header .meta { color: #8fb4e6; font-size: 13px; }
+    main { max-width: 1100px; margin: 0 auto; padding: 22px; }
+    .panel {
+      background: var(--paper); border: 1px solid var(--hairline);
+      border-radius: 8px; padding: 20px;
+    }
+    .gate { max-width: 420px; margin: 60px auto; }
+    label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+    input[type=password], input[type=text] {
+      width: 100%; padding: 10px 12px; font-size: 15px;
+      border: 1px solid var(--hairline); border-radius: 6px; background: #faf8f4;
+    }
+    button {
+      font: inherit; cursor: pointer; border: 0; border-radius: 6px;
+      background: var(--red); color: #fff; padding: 10px 18px; font-weight: 700;
+    }
+    button:hover { background: #B5160F; }
+    button.ghost { background: transparent; color: var(--navy); border: 1px solid var(--navy); }
+    .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .toolbar { justify-content: space-between; margin-bottom: 16px; }
+    .status { font-size: 13px; color: var(--ink-muted); }
+    .err { color: var(--red); font-weight: 600; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    th, td { text-align: left; padding: 10px 12px; vertical-align: top; border-bottom: 1px solid var(--hairline); }
+    th { font-size: 12px; text-transform: uppercase; letter-spacing: .5px; color: var(--ink-muted); white-space: nowrap; }
+    tbody tr:hover { background: #faf8f4; }
+    td.comment { max-width: 380px; }
+    .badge { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 12px; font-weight: 700; }
+    .badge.yes { background: #d8f0d8; color: #1d6b1d; }
+    .badge.no { background: #eee; color: #777; }
+    .nowrap { white-space: nowrap; }
+    .empty { padding: 40px; text-align: center; color: var(--ink-muted); }
+    a { color: var(--navy); }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Comments</h1>
+    <span class="meta" id="headerMeta"></span>
+  </header>
+
+  <main>
+    <!-- Token gate -->
+    <section id="gate" class="panel gate" hidden>
+      <h2 style="margin-top:0">Admin access</h2>
+      <p class="status">Enter the admin token to view submissions.</p>
+      <label for="token">Admin token</label>
+      <input type="password" id="token" autocomplete="off" />
+      <div class="row" style="margin-top:14px">
+        <button id="gateBtn">View comments</button>
+        <span class="status err" id="gateErr"></span>
+      </div>
+    </section>
+
+    <!-- Data view -->
+    <section id="view" class="panel" hidden>
+      <div class="row toolbar">
+        <span class="status" id="count"></span>
+        <div class="row">
+          <button class="ghost" id="refreshBtn">Refresh</button>
+          <button class="ghost" id="csvBtn">Export CSV</button>
+          <button class="ghost" id="logoutBtn">Lock</button>
+        </div>
+      </div>
+      <div style="overflow-x:auto">
+        <table id="table">
+          <thead>
+            <tr>
+              <th>#</th><th>Date</th><th>Name</th><th>Address</th>
+              <th>Email</th><th>Dist. 3</th><th>Comment</th>
+            </tr>
+          </thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+      <div class="empty" id="empty" hidden>No comments yet.</div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      'use strict';
+      var KEY = 'pp_admin_token';
+      var rows = [];
+
+      var els = {
+        gate: document.getElementById('gate'),
+        view: document.getElementById('view'),
+        token: document.getElementById('token'),
+        gateBtn: document.getElementById('gateBtn'),
+        gateErr: document.getElementById('gateErr'),
+        count: document.getElementById('count'),
+        tbody: document.getElementById('tbody'),
+        empty: document.getElementById('empty'),
+        headerMeta: document.getElementById('headerMeta'),
+        refreshBtn: document.getElementById('refreshBtn'),
+        csvBtn: document.getElementById('csvBtn'),
+        logoutBtn: document.getElementById('logoutBtn'),
+      };
+
+      function getToken() { return sessionStorage.getItem(KEY) || ''; }
+      function setToken(t) { sessionStorage.setItem(KEY, t); }
+      function clearToken() { sessionStorage.removeItem(KEY); }
+
+      function esc(s) {
+        return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+          return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+        });
+      }
+
+      function fmtDate(iso) {
+        var d = new Date(iso);
+        if (isNaN(d)) return esc(iso);
+        return d.toLocaleString();
+      }
+
+      function showGate(msg) {
+        els.view.hidden = true;
+        els.gate.hidden = false;
+        els.headerMeta.textContent = '';
+        els.gateErr.textContent = msg || '';
+        els.token.focus();
+      }
+
+      function render() {
+        els.tbody.innerHTML = '';
+        if (!rows.length) {
+          els.empty.hidden = false;
+          els.count.textContent = '0 comments';
+          return;
+        }
+        els.empty.hidden = true;
+        els.count.textContent = rows.length + (rows.length === 1 ? ' comment' : ' comments');
+        var html = rows.map(function (r) {
+          return '<tr>' +
+            '<td class="nowrap">' + esc(r.id) + '</td>' +
+            '<td class="nowrap">' + fmtDate(r.created_at) + '</td>' +
+            '<td>' + esc(r.name) + '</td>' +
+            '<td>' + esc(r.address) + '</td>' +
+            '<td><a href="mailto:' + esc(r.email) + '">' + esc(r.email) + '</a></td>' +
+            '<td>' + (r.district3 ? '<span class="badge yes">Yes</span>' : '<span class="badge no">No</span>') + '</td>' +
+            '<td class="comment">' + esc(r.comment) + '</td>' +
+          '</tr>';
+        }).join('');
+        els.tbody.innerHTML = html;
+      }
+
+      function load() {
+        var token = getToken();
+        if (!token) { showGate(); return; }
+        els.count.textContent = 'Loading…';
+        fetch('/api/comments?limit=500', { headers: { 'x-admin-token': token } })
+          .then(function (res) {
+            if (res.status === 401) { clearToken(); showGate('Invalid token.'); return null; }
+            if (res.status === 503) { showGate('Listing is disabled (ADMIN_TOKEN not set on the server).'); return null; }
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            return res.json();
+          })
+          .then(function (data) {
+            if (!data) return;
+            rows = data.comments || [];
+            els.gate.hidden = true;
+            els.view.hidden = false;
+            els.headerMeta.textContent = data.stub ? '(sample data — DB not connected)' : '';
+            render();
+          })
+          .catch(function (err) {
+            showGate('Failed to load: ' + err.message);
+          });
+      }
+
+      function toCsv() {
+        var cols = ['id', 'created_at', 'name', 'address', 'email', 'district3', 'comment'];
+        var lines = [cols.join(',')];
+        rows.forEach(function (r) {
+          lines.push(cols.map(function (c) {
+            var v = r[c] == null ? '' : String(r[c]);
+            return '"' + v.replace(/"/g, '""') + '"';
+          }).join(','));
+        });
+        var blob = new Blob([lines.join('\n')], { type: 'text/csv' });
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'comments.csv';
+        a.click();
+        URL.revokeObjectURL(a.href);
+      }
+
+      els.gateBtn.addEventListener('click', function () {
+        var t = els.token.value.trim();
+        if (!t) { els.gateErr.textContent = 'Token required.'; return; }
+        setToken(t);
+        els.token.value = '';
+        load();
+      });
+      els.token.addEventListener('keydown', function (e) { if (e.key === 'Enter') els.gateBtn.click(); });
+      els.refreshBtn.addEventListener('click', load);
+      els.csvBtn.addEventListener('click', toCsv);
+      els.logoutBtn.addEventListener('click', function () { clearToken(); rows = []; showGate(); });
+
+      // Boot
+      if (getToken()) load(); else showGate();
+    })();
+  </script>
+</body>
+</html>

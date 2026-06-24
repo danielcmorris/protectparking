@@ -11,6 +11,11 @@
 #
 # Secret was created from creds/api.env (socket-form connection string):
 #   gcloud secrets create protectparking-database-url --data-file=-
+#
+# The ADMIN_TOKEN secret (guards the /admin.html comment listing) was set with:
+#   printf '%s' "$ADMIN_TOKEN" | gcloud secrets create protectparking-admin-token --data-file=-
+#   gcloud run services update parking --region=us-west1 \
+#     --update-secrets=ADMIN_TOKEN=protectparking-admin-token:latest
 apiVersion: serving.knative.dev/v1
 kind: Service
 metadata:
@@ -45,6 +50,11 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: protectparking-database-url
+                  key: latest
+            - name: ADMIN_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: protectparking-admin-token
                   key: latest
           resources:
             limits:

@@ -20,6 +20,11 @@ module.exports = {
     .map((s) => s.trim())
     .filter(Boolean),
 
+  // Shared secret guarding the admin comment list (PII). When unset, the
+  // /api/comments listing is disabled (returns 503) so PII is never exposed
+  // by accident.
+  adminToken: process.env.ADMIN_TOKEN || '',
+
   // Reject oversized payloads early.
   maxBodyBytes: '16kb',
 

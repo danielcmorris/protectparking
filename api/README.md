@@ -14,6 +14,14 @@ comment/contact submissions and exposes the running tally for the pledge counter
 | GET    | `/health`             | Liveness/readiness probe for Cloud Run   |
 | POST   | `/api/comments`       | Save a submission `{name,address,email,district3,comment}` (email required) |
 | GET    | `/api/comments/count` | Running tally for the "neighbors have spoken up" counter |
+| GET    | `/api/comments`       | **Admin only** — list submissions (PII). Requires the `x-admin-token` header (or `?token=`) to match `ADMIN_TOKEN`. Returns 503 if `ADMIN_TOKEN` is unset. Supports `?limit=` (≤500) and `?offset=`. |
+
+## Admin comment viewer
+`/admin.html` is a token-gated page that lists submissions in a table with a CSV
+export. It calls `GET /api/comments` with the token you enter (held in
+`sessionStorage`, never persisted). Set `ADMIN_TOKEN` in the environment to
+enable it — in prod it's injected from the `protectparking-admin-token` secret
+(see `deploy/service.yaml`).
 
 ## Run locally
 ```bash

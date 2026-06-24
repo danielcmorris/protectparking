@@ -70,6 +70,33 @@ async function getCommentCount() {
 }
 
 /**
+ * List submissions newest-first for the admin view.
+ * @param {{limit?:number, offset?:number}} [opts]
+ * @returns {Promise<Array<{id:number,name:string,address:string,email:string,district3:boolean,comment:string,created_at:string}>>}
+ */
+async function listComments({ limit = 100, offset = 0 } = {}) {
+  const lim = Math.min(Math.max(parseInt(limit, 10) || 100, 1), 500);
+  const off = Math.max(parseInt(offset, 10) || 0, 0);
+
+  if (!ENABLE_DB) {
+    // A couple of fake rows so the admin page renders against the stub.
+    const sample = [
+      { id: stubCount, name: 'Jane Neighbor', address: '123 Vallejo St', email: 'jane@example.com', district3: true, comment: 'Please keep our parking!', created_at: new Date().toISOString() },
+      { id: stubCount - 1, name: 'Sam Local', address: '456 Vallejo St', email: 'sam@example.com', district3: false, comment: 'Opposed to the takeover.', created_at: new Date().toISOString() },
+    ];
+    return sample.slice(off, off + lim);
+  }
+
+  const sql = `
+    SELECT id, name, address, email, district3, comment, created_at
+    FROM comments
+    ORDER BY created_at DESC, id DESC
+    LIMIT $1 OFFSET $2`;
+  const { rows } = await getPool().query(sql, [lim, off]);
+  return rows;
+}
+
+/**
  * Health probe for the connection. Returns true when reachable.
  * @returns {Promise<boolean>}
  */
@@ -83,4 +110,4 @@ async function close() {
   if (pool) await pool.end();
 }
 
-module.exports = { getPool, saveComment, getCommentCount, ping, close, ENABLE_DB };
+module.exports = { getPool, saveComment, getCommentCount, listComments, ping, close, ENABLE_DB };
