@@ -87,6 +87,7 @@
     "joinMeeting": "我會參加公聽會",
     "readStatement": "請代我宣讀我的聲明",
     "commentPlaceholder": "您的意見（選填）",
+    "noPublish": "請勿在網站上公開我的意見",
     "submit": "提交我的意見",
     "submitting": "提交中…"
   },
@@ -135,5 +136,10 @@
     "callin": "電話參與 #：415-523-2709，並輸入會議編號 836 632 456#",
     "joinOnline": "網上參加",
     "bar": "我們的街道 · 我們的城市 · 我們的聲音"
+  },
+  "neighbors": {
+    "eyebrow": "來自您的鄰居",
+    "title": "街坊們的心聲",
+    "anon": "一位鄰居"
   }
 }

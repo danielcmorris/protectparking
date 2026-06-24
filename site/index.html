@@ -330,6 +330,10 @@
             </label>
             <textarea name="comment" rows="10" placeholder="Your comment (optional)"
               data-i18n-attr="placeholder:form.commentPlaceholder" class="field field--textarea"></textarea>
+            <label class="checkbox">
+              <input type="checkbox" name="noPublish">
+              <span data-i18n="form.noPublish">Don't publish my comment on the website</span>
+            </label>
             <button type="submit" class="btn btn--red btn--block" data-i18n="form.submit">Submit My Comment</button>
           </form>
 
@@ -480,6 +484,17 @@
         </div><!-- /.action__side -->
 
       </div>
+    </div>
+  </section>
+
+  <!-- NEIGHBOR VOICES (public comments, scrolling cards) -->
+  <section id="neighbors" class="neighbors" hidden>
+    <div class="container neighbors__head">
+      <p class="overline overline--red" data-i18n="neighbors.eyebrow">FROM YOUR NEIGHBORS</p>
+      <h2 class="neighbors__title" data-i18n="neighbors.title">What the neighborhood is saying</h2>
+    </div>
+    <div class="neighbors__viewport" aria-label="Scrolling neighborhood comments">
+      <div class="neighbors__track" id="neighbors-track"></div>
     </div>
   </section>
 

@@ -90,6 +90,7 @@
      
     "readStatement": "Please read my statement for me",
     "commentPlaceholder": "Your comment (optional)",
+    "noPublish": "Don't publish my comment on the website",
     "submit": "Submit My Comment",
     "submitting": "Submitting…"
   },
@@ -139,5 +140,10 @@
     "callin": "Call-in #: 415-523-2709  and enter conference ID 836 632 456#",
     "joinOnline": "join online",
     "bar": "Our streets · Our city · Our voice"
+  },
+  "neighbors": {
+    "eyebrow": "FROM YOUR NEIGHBORS",
+    "title": "What the neighborhood is saying",
+    "anon": "A neighbor"
   }
 }

@@ -9,6 +9,9 @@ CREATE TABLE IF NOT EXISTS comments (
   email       TEXT        NOT NULL,
   district3   BOOLEAN     NOT NULL DEFAULT FALSE,
   comment     TEXT,
+  -- 'private' (hidden), 'to-review' (default for new submissions), 'public'
+  -- (shown in the site's neighbor-voices cards). Admin promotes to 'public'.
+  visibility  VARCHAR(20) NOT NULL DEFAULT 'to-review',
   created_at  TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 

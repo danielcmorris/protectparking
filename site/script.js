@@ -123,6 +123,9 @@
         email: email,
         district3: data.get('district3') === 'on',
         comment: (data.get('comment') || '').toString().trim(),
+        // Checked "don't publish" => keep private; otherwise queue for review.
+        // An admin manually promotes a comment to 'public'.
+        visibility: data.get('noPublish') === 'on' ? 'private' : 'to-review',
       };
 
       // Hide the form and show the spinner while the post is in flight.
@@ -222,6 +225,53 @@
     } catch (e) { done(); }
   }
   bind('#copy-link', copyLink);
+
+  /* ---- neighbor voices: scrolling public comments ---- */
+  function buildNeighborCard(c) {
+    var card = document.createElement('figure');
+    card.className = 'neighbor-card';
+
+    var quote = document.createElement('blockquote');
+    quote.className = 'neighbor-card__quote';
+    quote.textContent = c.comment || '';
+    card.appendChild(quote);
+
+    var name = (c.name || '').trim();
+    var cite = document.createElement('figcaption');
+    cite.className = 'neighbor-card__name';
+    cite.textContent = name || L('neighbors.anon') || 'A neighbor';
+    card.appendChild(cite);
+
+    return card;
+  }
+
+  function loadNeighborVoices() {
+    var section = $('#neighbors');
+    var track = $('#neighbors-track');
+    if (!section || !track) return;
+
+    fetch(CONFIG.apiBase.replace(/\/$/, '') + '/api/comments/public?limit=60')
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (data) {
+        var items = (data && data.comments) || [];
+        if (!items.length) return; // nothing public yet — leave the section hidden
+
+        items.forEach(function (c) { track.appendChild(buildNeighborCard(c)); });
+        // Duplicate the set so the -50% marquee loops seamlessly.
+        items.forEach(function (c) {
+          var clone = buildNeighborCard(c);
+          clone.setAttribute('aria-hidden', 'true');
+          track.appendChild(clone);
+        });
+        // Slow the scroll down for short lists so it isn't frantic.
+        var seconds = Math.max(30, items.length * 7);
+        track.style.animationDuration = seconds + 's';
+
+        section.hidden = false;
+      })
+      .catch(function () { /* keep section hidden on error */ });
+  }
+  loadNeighborVoices();
 
   /* ---- helpers ---- */
   function bind(sel, fn) {

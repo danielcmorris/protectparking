@@ -43,12 +43,17 @@ function validate(body) {
   // Loose shape check; real validation happens server-side once DB is wired.
   else if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) errors.push('email is invalid');
 
+  // Visibility is caller-supplied but clamped to the allowed set; anything
+  // unknown (or omitted) falls back to the default ('to-review').
+  const visibility = db.VISIBILITIES.includes(body.visibility) ? body.visibility : db.DEFAULT_VISIBILITY;
+
   const entry = {
     name: str(body.name, LIMITS.name),
     address: str(body.address, LIMITS.address),
     email,
     district3: body.district3 === true || body.district3 === 'on',
     comment: str(body.comment, LIMITS.comment),
+    visibility,
   };
   return { entry, errors };
 }
@@ -87,6 +92,21 @@ router.get('/comments/count', async (_req, res) => {
 });
 
 /**
+ * GET /api/comments/public
+ * Public, non-authenticated feed of comments flagged `visibility = 'public'`.
+ * Returns only name + comment (no PII) for the scrolling cards on the site.
+ */
+router.get('/comments/public', async (req, res) => {
+  try {
+    const rows = await db.listPublicComments({ limit: req.query.limit });
+    return res.json({ ok: true, count: rows.length, comments: rows, stub: !db.ENABLE_DB });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ ok: false, error: 'failed to read public comments' });
+  }
+});
+
+/**
  * GET /api/comments
  * Admin-only listing of submissions (contains PII). Requires a valid
  * admin token via the `x-admin-token` header or `?token=` query param.
@@ -98,6 +118,26 @@ router.get('/comments', requireAdmin, async (req, res) => {
   } catch (err) {
     console.error(err);
     return res.status(500).json({ ok: false, error: 'failed to read comments' });
+  }
+});
+
+/**
+ * PATCH /api/comments/:id/visibility
+ * Admin-only. Set a single comment's visibility to private | to-review | public.
+ * Body: { visibility: string }
+ */
+router.patch('/comments/:id/visibility', requireAdmin, async (req, res) => {
+  const visibility = (req.body && req.body.visibility) || '';
+  if (!db.VISIBILITIES.includes(visibility)) {
+    return res.status(400).json({ ok: false, error: `visibility must be one of: ${db.VISIBILITIES.join(', ')}` });
+  }
+  try {
+    const updated = await db.updateCommentVisibility(req.params.id, visibility);
+    if (!updated) return res.status(404).json({ ok: false, error: 'comment not found' });
+    return res.json({ ok: true, id: updated.id, visibility: updated.visibility, stub: !db.ENABLE_DB });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ ok: false, error: 'failed to update visibility' });
   }
 });
 
