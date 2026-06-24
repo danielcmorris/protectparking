@@ -9,11 +9,15 @@ creds/
 .env.*
 !**/.env.example
 service-account*.json
+ADMIN_ACCESS.md
 
 # build / extraction artifacts
 extracted/
 *.zip
 *.zip:Zone.Identifier
+
+# local dev runtime artifacts
+.local-api.log
 
 # OS / editor
 .DS_Store
