@@ -30,6 +30,10 @@ module.exports = {
   // address on a domain verified in Resend.
   resendApiKey: process.env.RESEND_API_KEY || '',
   resendFrom: process.env.RESEND_FROM || 'donotreply@protectparking.com',
+  // Where new-comment notifications are sent (staff inbox, not the signer).
+  resendNotifyTo: process.env.RESEND_NOTIFY_TO || 'it@morrisdev.com',
+  // Public base URL, used to build the admin link in notification emails.
+  siteUrl: process.env.SITE_URL || 'https://protectparking.com',
 
   // Reject oversized payloads early.
   maxBodyBytes: '16kb',

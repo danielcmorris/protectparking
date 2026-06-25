@@ -8,34 +8,58 @@ const { sendEmail } = require('../email');
 
 const router = express.Router();
 
-// Confirmation email sent to a new signup. Kept plain and short. Failures are
+// Minimal HTML-escape so user-supplied fields can't inject markup into the
+// notification email body.
+function esc(s) {
+  return String(s == null ? '' : s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+// Staff notification sent to config.resendNotifyTo when a new comment lands.
+// Includes the submission details and a link to the admin page. Failures are
 // logged but never block the signup response.
-async function sendSignupConfirmation(entry, log) {
-  if (!entry.email) return;
-  const name = entry.name || 'neighbor';
+async function sendCommentNotification(entry, id, log) {
+  const name = entry.name || 'Someone';
+  const adminUrl = `${config.siteUrl}/admin.html`;
+
+  const fields = [
+    ['Name', entry.name || '—'],
+    ['Address', entry.address || '—'],
+    ['Email', entry.email || '—'],
+    ['In District 3', entry.district3 ? 'Yes' : 'No'],
+    ['Visibility', entry.visibility],
+    ['Comment ID', id || '—'],
+  ];
+
   const text =
-    `Hi ${name},\n\n` +
-    `Thanks for standing with us to protect parking in our neighborhood. ` +
-    `Your name has been added to the list.\n\n` +
-    `We'll be in touch with next steps.\n\n` +
-    `— protectparking.com\n\n` +
-    `This is an unmonitored address; please don't reply to this email.`;
+    fields.map(([k, v]) => `${k}: ${v}`).join('\n') +
+    `\n\nComment:\n${entry.comment || '(none)'}\n\n` +
+    `View in admin: ${adminUrl}`;
+
   const html =
-    `<p>Hi ${name},</p>` +
-    `<p>Thanks for standing with us to protect parking in our neighborhood. ` +
-    `Your name has been added to the list.</p>` +
-    `<p>We'll be in touch with next steps.</p>` +
-    `<p>— <a href="https://protectparking.com">protectparking.com</a></p>` +
-    `<p style="color:#888;font-size:12px">This is an unmonitored address; please don't reply to this email.</p>`;
+    `<table style="border-collapse:collapse;font-family:sans-serif;font-size:14px">` +
+    fields
+      .map(
+        ([k, v]) =>
+          `<tr><td style="padding:2px 8px;color:#555"><strong>${esc(k)}</strong></td>` +
+          `<td style="padding:2px 8px">${esc(v)}</td></tr>`
+      )
+      .join('') +
+    `</table>` +
+    `<p style="font-family:sans-serif;font-size:14px"><strong>Comment:</strong><br>${esc(entry.comment) || '<em>(none)</em>'}</p>` +
+    `<p style="font-family:sans-serif;font-size:14px"><a href="${esc(adminUrl)}">View in admin &rarr;</a></p>`;
 
   const result = await sendEmail({
-    to: entry.email,
-    subject: 'Thanks for protecting our parking',
+    to: config.resendNotifyTo,
+    subject: `${name} has commented on protectparking`,
     text,
     html,
   });
   if (!result.ok && !result.skipped) {
-    (log || console.error)(`signup confirmation email failed: ${result.error}`);
+    (log || console.error)(`comment notification email failed: ${result.error}`);
   }
 }
 
@@ -102,8 +126,8 @@ router.post('/comments', async (req, res) => {
 
   try {
     const result = await db.saveComment(entry);
-    // Best-effort confirmation email; never fail the signup if it errors.
-    await sendSignupConfirmation(entry, req.log).catch((e) => (req.log || console.error)(e));
+    // Best-effort staff notification; never fail the signup if it errors.
+    await sendCommentNotification(entry, result.id, req.log).catch((e) => (req.log || console.error)(e));
     return res.status(201).json({ ok: true, id: result.id, stub: !db.ENABLE_DB });
   } catch (err) {
     req.log ? req.log(err) : console.error(err);
