@@ -4,8 +4,40 @@ const crypto = require('crypto');
 const express = require('express');
 const db = require('../db');
 const config = require('../config');
+const { sendEmail } = require('../email');
 
 const router = express.Router();
+
+// Confirmation email sent to a new signup. Kept plain and short. Failures are
+// logged but never block the signup response.
+async function sendSignupConfirmation(entry, log) {
+  if (!entry.email) return;
+  const name = entry.name || 'neighbor';
+  const text =
+    `Hi ${name},\n\n` +
+    `Thanks for standing with us to protect parking in our neighborhood. ` +
+    `Your name has been added to the list.\n\n` +
+    `We'll be in touch with next steps.\n\n` +
+    `— protectparking.com\n\n` +
+    `This is an unmonitored address; please don't reply to this email.`;
+  const html =
+    `<p>Hi ${name},</p>` +
+    `<p>Thanks for standing with us to protect parking in our neighborhood. ` +
+    `Your name has been added to the list.</p>` +
+    `<p>We'll be in touch with next steps.</p>` +
+    `<p>— <a href="https://protectparking.com">protectparking.com</a></p>` +
+    `<p style="color:#888;font-size:12px">This is an unmonitored address; please don't reply to this email.</p>`;
+
+  const result = await sendEmail({
+    to: entry.email,
+    subject: 'Thanks for protecting our parking',
+    text,
+    html,
+  });
+  if (!result.ok && !result.skipped) {
+    (log || console.error)(`signup confirmation email failed: ${result.error}`);
+  }
+}
 
 // Constant-time compare of the supplied admin token against the configured one.
 function tokenOk(supplied) {
@@ -70,6 +102,8 @@ router.post('/comments', async (req, res) => {
 
   try {
     const result = await db.saveComment(entry);
+    // Best-effort confirmation email; never fail the signup if it errors.
+    await sendSignupConfirmation(entry, req.log).catch((e) => (req.log || console.error)(e));
     return res.status(201).json({ ok: true, id: result.id, stub: !db.ENABLE_DB });
   } catch (err) {
     req.log ? req.log(err) : console.error(err);

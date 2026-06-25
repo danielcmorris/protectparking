@@ -25,6 +25,12 @@ module.exports = {
   // by accident.
   adminToken: process.env.ADMIN_TOKEN || '',
 
+  // Resend transactional email. When resendApiKey is unset, email sending is
+  // disabled (callers should no-op rather than error). resendFrom must be an
+  // address on a domain verified in Resend.
+  resendApiKey: process.env.RESEND_API_KEY || '',
+  resendFrom: process.env.RESEND_FROM || 'donotreply@protectparking.com',
+
   // Reject oversized payloads early.
   maxBodyBytes: '16kb',
 
