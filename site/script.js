@@ -231,19 +231,59 @@
     var card = document.createElement('figure');
     card.className = 'neighbor-card';
 
+    var commentText = c.comment || '';
+    var name = (c.name || '').trim() || L('neighbors.anon') || 'A neighbor';
+
     var quote = document.createElement('blockquote');
     quote.className = 'neighbor-card__quote';
-    quote.textContent = c.comment || '';
+    quote.textContent = commentText;
     card.appendChild(quote);
 
-    var name = (c.name || '').trim();
     var cite = document.createElement('figcaption');
     cite.className = 'neighbor-card__name';
-    cite.textContent = name || L('neighbors.anon') || 'A neighbor';
+    cite.textContent = name;
     card.appendChild(cite);
+
+    // Click/tap (or keyboard) to read the full comment in a dialog.
+    card.setAttribute('role', 'button');
+    card.setAttribute('tabindex', '0');
+    card.addEventListener('click', function () { openNeighborDialog(commentText, name); });
+    card.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openNeighborDialog(commentText, name); }
+    });
 
     return card;
   }
+
+  function pauseNeighbors(paused) {
+    var track = $('#neighbors-track');
+    if (track) track.style.animationPlayState = paused ? 'paused' : '';
+  }
+
+  function openNeighborDialog(comment, name) {
+    var dlg = $('#neighbor-dialog');
+    if (!dlg) return;
+    $('#neighbor-dialog-quote').textContent = comment;
+    $('#neighbor-dialog-name').textContent = name;
+    pauseNeighbors(true);
+    if (typeof dlg.showModal === 'function') dlg.showModal();
+    else dlg.setAttribute('open', '');
+  }
+
+  (function wireNeighborDialog() {
+    var dlg = $('#neighbor-dialog');
+    if (!dlg) return;
+    function close() {
+      if (typeof dlg.close === 'function') dlg.close();
+      else dlg.removeAttribute('open');
+      pauseNeighbors(false);
+    }
+    var closeBtn = $('#neighbor-dialog-close');
+    if (closeBtn) closeBtn.addEventListener('click', close);
+    // Click on the backdrop (outside the inner content) closes too.
+    dlg.addEventListener('click', function (e) { if (e.target === dlg) close(); });
+    dlg.addEventListener('close', function () { pauseNeighbors(false); });
+  })();
 
   function loadNeighborVoices() {
     var section = $('#neighbors');

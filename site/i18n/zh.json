@@ -140,6 +140,7 @@
   "neighbors": {
     "eyebrow": "來自您的鄰居",
     "title": "街坊們的心聲",
-    "anon": "一位鄰居"
+    "anon": "一位鄰居",
+    "close": "關閉"
   }
 }

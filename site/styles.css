@@ -528,7 +528,15 @@ html.i18n-busy body { visibility: hidden; }
   padding: 20px 22px;
   display: flex; flex-direction: column; gap: 12px;
   box-shadow: 0 6px 22px rgba(0, 0, 0, .28);
+  cursor: pointer; transition: transform .15s, box-shadow .15s;
 }
+.neighbor-card:hover,
+.neighbor-card:focus-visible {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, .34);
+  outline: none;
+}
+.neighbor-card:focus-visible { border-color: var(--red); }
 .neighbor-card__quote {
   font-family: var(--f-quote); font-size: 16px; line-height: 1.5;
   /* clamp long comments to keep cards uniform */
@@ -550,3 +558,34 @@ html.i18n-busy body { visibility: hidden; }
 @media (prefers-reduced-motion: reduce) {
   .neighbors__track { animation: none; flex-wrap: wrap; justify-content: center; width: auto; }
 }
+/* ---- full-comment dialog ---- */
+.neighbor-dialog {
+  border: 0; border-radius: 14px; padding: 0;
+  width: min(560px, 92vw); max-height: 86vh;
+  background: var(--paper); color: var(--ink);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, .5);
+}
+.neighbor-dialog::backdrop { background: rgba(10, 22, 40, .62); }
+.neighbor-dialog__inner {
+  position: relative; padding: 30px 32px 28px;
+  overflow-y: auto; max-height: 86vh;
+}
+.neighbor-dialog__close {
+  position: absolute; top: 10px; right: 12px;
+  width: 36px; height: 36px; line-height: 1;
+  border: 0; background: transparent; cursor: pointer;
+  font-size: 28px; color: var(--ink-muted); border-radius: 8px;
+}
+.neighbor-dialog__close:hover { background: rgba(0, 0, 0, .06); color: var(--ink); }
+.neighbor-dialog__quote {
+  font-family: var(--f-quote); font-size: 19px; line-height: 1.55;
+  margin: 6px 0 0; white-space: pre-wrap;
+}
+.neighbor-dialog__quote::before { content: "\201C"; color: var(--red); font-weight: 700; }
+.neighbor-dialog__quote::after { content: "\201D"; color: var(--red); font-weight: 700; }
+.neighbor-dialog__name {
+  margin: 18px 0 0;
+  font-family: var(--f-head); font-weight: 600; font-size: 13px;
+  letter-spacing: .6px; text-transform: uppercase; color: var(--ink-muted);
+}
+.neighbor-dialog__name::before { content: "— "; }

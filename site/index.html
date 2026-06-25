@@ -498,6 +498,16 @@
     </div>
   </section>
 
+  <!-- Full-comment dialog (opened by clicking a scrolling card) -->
+  <dialog id="neighbor-dialog" class="neighbor-dialog" aria-label="Neighbor comment">
+    <div class="neighbor-dialog__inner">
+      <button type="button" class="neighbor-dialog__close" id="neighbor-dialog-close"
+        aria-label="Close" data-i18n-attr="aria-label:neighbors.close">&times;</button>
+      <blockquote class="neighbor-dialog__quote" id="neighbor-dialog-quote"></blockquote>
+      <p class="neighbor-dialog__name" id="neighbor-dialog-name"></p>
+    </div>
+  </dialog>
+
   <!-- FOOTER -->
   <footer class="footer">
     <div class="footer__inner">

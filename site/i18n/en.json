@@ -144,6 +144,7 @@
   "neighbors": {
     "eyebrow": "FROM YOUR NEIGHBORS",
     "title": "What the neighborhood is saying",
-    "anon": "A neighbor"
+    "anon": "A neighbor",
+    "close": "Close"
   }
 }
