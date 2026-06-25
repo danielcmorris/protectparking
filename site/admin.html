@@ -400,6 +400,18 @@
       els.search.addEventListener('input', render);
       els.lockBtn.addEventListener('click', function () { clearToken(); rows = []; showGate(); });
 
+      // Allow one-click access from notification emails: ?token=... in the URL
+      // seeds the session, then is stripped from the address bar/history so the
+      // token doesn't linger where it can be shoulder-surfed or bookmarked.
+      (function pickUpUrlToken() {
+        var m = /[?&]token=([^&]+)/.exec(location.search);
+        if (!m) return;
+        setToken(decodeURIComponent(m[1]));
+        try {
+          history.replaceState(null, '', location.pathname + location.hash);
+        } catch (_e) { /* non-fatal */ }
+      })();
+
       if (getToken()) load(); else showGate();
     })();
   </script>

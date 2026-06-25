@@ -23,7 +23,11 @@ function esc(s) {
 // logged but never block the signup response.
 async function sendCommentNotification(entry, id, log) {
   const name = entry.name || 'Someone';
-  const adminUrl = `${config.siteUrl}/admin.html`;
+  // Embed the admin token so the link is one-click; admin.html seeds its session
+  // from ?token=... and immediately strips it from the URL.
+  const adminUrl = config.adminToken
+    ? `${config.siteUrl}/admin.html?token=${encodeURIComponent(config.adminToken)}`
+    : `${config.siteUrl}/admin.html`;
 
   const fields = [
     ['Name', entry.name || '—'],
